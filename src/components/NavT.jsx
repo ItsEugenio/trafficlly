@@ -35,7 +35,7 @@ function NavT() {
         />
         <NavbarBrand>
           <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" alt="" width='30px' />
-          <p className="font-bold text-inherit">ACME</p>
+          <p className="font-bold text-inherit">Trafficlly</p>
         </NavbarBrand>
       </NavbarContent>
 
