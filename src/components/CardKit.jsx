@@ -33,14 +33,14 @@ function CardKit({ kits }) {
             >
               <CardHeader className="flex gap-3">
                 <div className="flex justify-center w-full">
-                  <h1 className="text-xl">Kit de Trafficcly : {item.id}</h1>
+                  <h1 className="text-xl">Kit de Trafficcly : {item.nombre}</h1>
                 </div>
               </CardHeader>
-              <Divider />
+             
               <CardBody>
-                <h2 className="text-center text-lg">Nombre : {item.nombre}</h2>
+              
                 <div className="flex justify-center w-full">
-                  <FaPeoplePulling size={130}/>
+                  <FaPeoplePulling size={130} />
                 </div>
               </CardBody>
               <Divider />
@@ -71,17 +71,15 @@ function CardKit({ kits }) {
             >
               <CardHeader className="flex gap-3">
                 <div className="flex justify-center w-full">
-                  <h1 className="text-xl">Kit de Trafficcly : {item.id}</h1>
+                  <h1 className="text-xl">Kit {item.nombre}</h1>
                 </div>
               </CardHeader>
-              <Divider />
               <CardBody>
-                <h2 className="text-center text-lg">Nombre : {item.nombre}</h2>
                 <div className="flex justify-center w-full">
-                <FaPeoplePulling size={130}/>
+                  <FaPeoplePulling size={130} />
                 </div>
               </CardBody>
-              <Divider />
+              <Divider className="my-4" />
               <CardFooter>
                 <div className="flex-col justify-center w-full text-center">
                   <h2 className="mb-4">Editar Kit</h2>

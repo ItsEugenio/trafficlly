@@ -60,12 +60,12 @@ function ModalEditKitT({idKit,name}) {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-              Editar Kit de Trafficlly : {idKit}
+              <ModalHeader className="flex flex-col gap-1 text-xl">
+              Editar Kit de Trafficlly : {name}
               </ModalHeader>
               <ModalBody>
                 <form onSubmit={handleSubmit}>
-                    <h1 className="text-center">Nombre actual : {name}</h1>
+                    <h1 className="text-center ">Nombre actual : {name}</h1>
                   <Input
                     className="m-2"
                     endContent={
@@ -79,7 +79,7 @@ function ModalEditKitT({idKit,name}) {
                     onChange={handleNameChange}
                   />
                   <div className="flex justify-center w-full">
-                    <Button color="success" type="submit" className="m-2">
+                    <Button color="success" type="submit" className="m-2" variant="ghost" size="lg">
                       Editar Kit
                     </Button>
                   </div>

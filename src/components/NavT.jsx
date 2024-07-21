@@ -10,7 +10,9 @@ import {
   Link,
   Button,
 } from "@nextui-org/react";
-import '../App.css'
+import "../App.css";
+import trafficLogo from "../assets/trafficlly.png";
+
 function NavT() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
@@ -37,6 +39,7 @@ function NavT() {
     localStorage.removeItem("token");
     window.location.assign("/");
   };
+
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen} className="bg-navbarPrimary">
       <NavbarContent>
@@ -47,12 +50,10 @@ function NavT() {
         <NavbarBrand>
           <a href="/home">
             <div className="flex">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png"
-                alt=""
-                width="30px"
-              />
-              <p className="font-bold text-inherit">Trafficlly</p>
+              <img src={trafficLogo} alt="" width="60px" />
+              <div className="flex justify-center items-center">
+                <h2 className="font-bold text-inherit text-center">Trafficlly</h2>
+              </div>
             </div>
           </a>
         </NavbarBrand>
@@ -80,7 +81,6 @@ function NavT() {
           <Button color="primary" variant="flat" onClick={cerrarSesion}>
             Cerrar Sesion
           </Button>
-          
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>

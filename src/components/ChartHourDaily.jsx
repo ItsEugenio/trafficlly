@@ -5,7 +5,9 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import axios from "axios";
 import io from "socket.io-client";
-import 'chart.js/auto'; // Importar todos los componentes de Chart.js
+
+import "chart.js/auto";
+
 
 const darkTheme = createTheme({
   palette: {
@@ -42,8 +44,8 @@ const hours = [
 const socket = io("https://websockettrafficlly.zapto.org");
 
 const formatDate = (date) => {
-  const day = date.getDate().toString().padStart(2, '0');
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
   const year = date.getFullYear();
   return `${year}-${month}-${day}`;
 };
@@ -77,7 +79,7 @@ export default function ChartHourDaily({ lugar }) {
             {
               headers: {
                 Authorization: token,
-              }
+              },
             }
           );
 
@@ -162,8 +164,10 @@ export default function ChartHourDaily({ lugar }) {
         label: `Personas que pasan ${lugar} del negocio`,
         data: peopleCounts,
         fill: false,
-        backgroundColor: 'rgba(253, 72, 0, 0.2)',
-        borderColor: '#fd4800',
+
+        backgroundColor: "rgba(253, 72, 0, 0.2)",
+        borderColor: "#fd4800",
+
         borderWidth: 2,
       },
     ],
@@ -176,12 +180,14 @@ export default function ChartHourDaily({ lugar }) {
         label: `Personas que pasan ${lugar} del negocio`,
         data: peopleCountsOut,
         fill: false,
-        backgroundColor: 'rgba(253, 72, 0, 0.2)',
-        borderColor: '#fd4800',
+
+        backgroundColor: "rgba(253, 72, 0, 0.2)",
+        borderColor: "#fd4800",
         borderWidth: 2,
         pointRadius: 3, // Ajusta el tamaño de los puntos aquí
         pointHoverRadius: 6, // Ajusta el tamaño de los puntos cuando el cursor está sobre ellos
-        pointBackgroundColor: '#fd4800',
+        pointBackgroundColor: "#fd4800",
+
       },
     ],
   };
@@ -193,10 +199,12 @@ export default function ChartHourDaily({ lugar }) {
       tooltip: {
         callbacks: {
           label: function (context) {
-            let label1 ='Número de personas';
+
+            let label1 = "Número de personas";
 
             if (label1) {
-              label1 += ': ';
+              label1 += ": ";
+
             }
             if (context.parsed.y !== null) {
               label1 += `${context.parsed.y}`;
@@ -210,13 +218,17 @@ export default function ChartHourDaily({ lugar }) {
       x: {
         title: {
           display: true,
-          text: 'Hora',
+
+          text: "Hora",
+
         },
       },
       y: {
         title: {
           display: true,
-          text: 'Número de personas',
+
+          text: "Número de personas",
+
         },
         beginAtZero: true,
       },
@@ -231,7 +243,12 @@ export default function ChartHourDaily({ lugar }) {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <div style={{ height: '400px', width: '100%' }} className="flex justify-center">
+
+      <div
+        style={{ height: "400px", width: "100%" }}
+        className="flex justify-center sm:p-4 sm:min-h-[400px] md:p-16 md:min-h-[700px]"
+      >
+
         {lugar === "afuera" ? (
           <Line data={dataAfuera} options={options} />
         ) : (

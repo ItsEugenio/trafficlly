@@ -5,6 +5,7 @@ import TableKits from "../components/Security/TableKits";
 import CardKit from "../components/CardKit";
 import AddKit from "../components/AddKit";
 import axios from "axios";
+import ButtonSecurityNav from "../components/ButtonSecurityNav";
 
 function KitsTrafficlly() {
   const token = localStorage.getItem("token");
@@ -48,9 +49,10 @@ function KitsTrafficlly() {
       {authenticated && (
         <>
           <NavT />
+          <ButtonSecurityNav />
           <div className="text-center h-dvh">
-            <h1 className="text-2xl">Kits Disponibles</h1>
-            <h4 className="text-lg">Puedes agregar y ver un Kit Trafficcly</h4>
+            <h1 className="text-4xl mb-4 mt-4">Kits Disponibles</h1>
+            <h4 className="text-xl">Puedes agregar y ver un Kit Trafficcly</h4>
             <div className="flex justify-center mt-6">
               <AddKit />
             </div>

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import GridCards from "../components/GridCards";
 import ChartWeek from "../components/ChartWeek";
 import NavT from "../components/NavT";
-import { format, startOfWeek, subDays } from 'date-fns';
-import axios from 'axios';
+import { format, startOfWeek, subDays } from "date-fns";
+import axios from "axios";
+import ButtonSecurityNav from "../components/ButtonSecurityNav";
 
 function HistorialTraffic() {
   const [lastSunday, setLastSunday] = useState("");
@@ -11,7 +13,18 @@ function HistorialTraffic() {
   const [diaPro, setDiaPro] = useState("");
   const [diaConc, setDiaConc] = useState("");
   const [horaC, setHorac] = useState("");
-  const [personasC,setPersonasC] = useState(0)
+  const [personasC, setPersonasC] = useState(0);
+
+  const navigate = useNavigate();
+  const [authenticated, setAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const isAuthenticated = token !== null;
+    setAuthenticated(isAuthenticated);
+    if (!isAuthenticated) {
+      navigate("/");
+    }
+  }, [navigate, token]);
 
   useEffect(() => {
     const today = new Date();
@@ -55,9 +68,9 @@ function HistorialTraffic() {
               },
             }
           );
-          setDiaConc(response.data[0].dia)
-          setHorac(response.data[0].hora)
-          setPersonasC(response.data[0].numero_personas)
+          setDiaConc(response.data[0].dia);
+          setHorac(response.data[0].hora);
+          setPersonasC(response.data[0].numero_personas);
         } catch (error) {
           console.log(error);
         }
@@ -68,22 +81,30 @@ function HistorialTraffic() {
 
   return (
     <>
-      <NavT />
-      <h1 className="text-center mt-14 text-2xl">
-        Personas que pasan por el local
-      </h1>
-      <div className="flex justify-center mt-6">
-        <GridCards diaTime={diaPro} diaConcu={diaConc} horaConcu={horaC} personasConcu={personasC} />
-      </div>
+      {authenticated && (
+        <>
+          <NavT />
+          <ButtonSecurityNav />
+          <h1 className="text-center mt-14 text-4xl mb-12">Estadisticas</h1>
+          <div className="flex justify-center mt-6">
+            <GridCards
+              diaTime={diaPro}
+              diaConcu={diaConc}
+              horaConcu={horaC}
+              personasConcu={personasC}
+            />
+          </div>
 
-      <h1 className="text-center mt-14 text-2xl">
-        Personas que pasan por el local
-      </h1>
-      <ChartWeek lugar="afuera" />
-      <h1 className="text-center mt-8 text-2xl">
-        Personas que entran al local
-      </h1>
-      <ChartWeek lugar="adentro" />
+          <h1 className="text-center mt-14 text-2xl">
+            Personas que pasan por el local
+          </h1>
+          <ChartWeek lugar="afuera" />
+          <h1 className="text-center mt-8 text-2xl">
+            Personas que entran al local
+          </h1>
+          <ChartWeek lugar="adentro" />
+        </>
+      )}
     </>
   );
 }

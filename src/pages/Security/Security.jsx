@@ -2,11 +2,25 @@ import React, { useState, useEffect } from "react";
 import NavbarSecurity from "../../components/Security/NavbarSecurity";
 import TableKits from "../../components/Security/TableKits";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Security() {
   const [token, setToken] = useState("");
   const [correo, setCorreo] = useState("");
   const [dataKit, setDataKit] = useState([]);
+
+  const navigate = useNavigate();
+  const [authenticated, setAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const isAuthenticated = token !== null;
+    setAuthenticated(isAuthenticated);
+    console.log("tokeeen", token);
+
+    if (!isAuthenticated) {
+      navigate("/");
+    }
+  }, [navigate, token]);
 
   useEffect(() => {
     setToken(localStorage.getItem("token"));
@@ -16,11 +30,14 @@ function Security() {
     const fetchData = async () => {
       if (token) {
         try {
-          const response = await axios.get(`https://trafficllymain.zapto.org/usuarios`, {
-            headers: {
-              Authorization: `${token}`,
-            },
-          });
+          const response = await axios.get(
+            `https://trafficllymain.zapto.org/usuarios`,
+            {
+              headers: {
+                Authorization: `${token}`,
+              },
+            }
+          );
           setCorreo(response.data.correo);
         } catch (error) {
           console.log(error);
@@ -43,7 +60,7 @@ function Security() {
               },
             }
           );
-          console.log('response HTTPS', response)
+          console.log("response HTTPS", response);
           setDataKit(response.data.data);
         } catch (error) {
           console.log(error);
@@ -53,7 +70,7 @@ function Security() {
     fetchData();
   }, [correo]);
 
-  console.log(dataKit)
+  console.log(dataKit);
 
   sessionStorage.removeItem("idKit");
 
@@ -66,12 +83,16 @@ function Security() {
 
   return (
     <>
-      <NavbarSecurity />
-      <div className="text-center h-screen">
-        <h1>Kits Disponibles</h1>
-        <h4>Puedes ver los reportes disponibles o administrar un Kit</h4>
-        <TableKits trafficly={false} dataTableKits={dataKit} />
-      </div>
+      {authenticated && (
+        <>
+          <NavbarSecurity />
+          <div className="text-center h-screen">
+            <h1>Kits Disponibles</h1>
+            <h4>Puedes ver los reportes disponibles o administrar un Kit</h4>
+            <TableKits trafficly={false} dataTableKits={dataKit} />
+          </div>
+        </>
+      )}
     </>
   );
 }
