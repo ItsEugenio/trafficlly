@@ -10,22 +10,15 @@ import {
   Link,
   Button,
 } from "@nextui-org/react";
-import ModalAddKitSecurity from './ModalAddKitSecurity';
+import ModalAddKitSecurity from "./ModalAddKitSecurity";
+import trafficLogo from "../../assets/trafficlly.png";
 
 function NavbarSecurity() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const menuItems = [
-    "Profile",
-    "Dashboard",
-    "Activity",
-    "Analytics",
-    "System",
-    "Deployments",
-    "My Settings",
-    "Team Settings",
-    "Help & Feedback",
-    "Log Out",
+    "Kits",
+
   ];
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen}>
@@ -35,11 +28,7 @@ function NavbarSecurity() {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png"
-            alt=""
-            width="30px"
-          />
+          <img src={trafficLogo} alt='trafficlly' width="60px" />
           <p className="font-bold text-inherit">Security</p>
         </NavbarBrand>
       </NavbarContent>
@@ -50,12 +39,13 @@ function NavbarSecurity() {
             KITS
           </Link>
         </NavbarItem>
-
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <h1 classname='text-center' >Agregar Kit</h1>
+        <NavbarItem>
+          <div className="flex justify-center items-center">
+            <h1 classname="text-center">Agregar Kit</h1>
             <ModalAddKitSecurity />
+          </div>
         </NavbarItem>
         <NavbarItem>
           <Button as={Link} color="primary" href="/home" variant="flat">
@@ -67,15 +57,9 @@ function NavbarSecurity() {
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
             <Link
-              color={
-                index === 2
-                  ? "primary"
-                  : index === menuItems.length - 1
-                  ? "danger"
-                  : "foreground"
-              }
+              color='primary'
               className="w-full"
-              href="#"
+              href="/Security"
               size="lg"
             >
               {item}

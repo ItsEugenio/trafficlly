@@ -33,8 +33,8 @@ function ModalDeleteReport({IDReport}) {
     }
     return (
       <>
-        <Button onPress={onOpen} isIconOnly color="danger">
-          <MdDelete size={30} />
+        <Button onPress={onOpen} isIconOnly color="danger" size="lg" className="m-1" variant="ghost">
+          <MdDelete size={40} />
         </Button>
         <Modal
           isOpen={isOpen}
@@ -46,7 +46,7 @@ function ModalDeleteReport({IDReport}) {
           <ModalContent>
             {(onClose) => (
               <>
-                <ModalHeader className="flex flex-col gap-1 text-center">
+                <ModalHeader className="flex flex-col gap-1 text-center text-2xl">
                   Eliminar Reporte {IDReport}
                 </ModalHeader>
                 <ModalBody>

@@ -24,15 +24,15 @@ function ModalReport({
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <>
-      <Button onPress={onOpen} color="primary">
-        <HiDocumentReport size={30} />
+      <Button onPress={onOpen} color="primary" size="lg" className="m-1" variant="ghost">
+        <HiDocumentReport size={40} />
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} backdrop="blur" size="lg">
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                Detalles del reporte {IDReport}
+              <ModalHeader className="flex flex-col gap-1 text-2xl">
+                Detalles del reporte: {IDReport}
               </ModalHeader>
               <ModalBody>
                 <div className="flex justify-center gap-4">
@@ -51,7 +51,7 @@ function ModalReport({
                   </div>
                 </div>
                 <div>
-                  <h2 className="text-center">Sensores activados</h2>
+                  <h2 className="text-center mb-2 mt-2">Sensores activados</h2>
                   <div className="grid grid-cols-1 gap-2">
                     <div className="flex justify-center">
                       {Camara === 1 || Camara === true ? (
@@ -92,7 +92,7 @@ function ModalReport({
                     </div>
 
                     <div className="flex-row">
-                      <h1 className="text-center">Imagen del reporte</h1>
+                      <h1 className="text-center mt-2">Imagen del reporte</h1>
                       <div className="flex justify-center w-full">
                         <img alt={IDReport} src={Imagen} width="300px" />
                       </div>
