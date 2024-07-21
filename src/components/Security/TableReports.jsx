@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   TableHeader,
@@ -8,21 +8,78 @@ import {
   TableCell,
   Tooltip,
   Button,
+  Divider,
 } from "@nextui-org/react";
-import { MdDelete } from "react-icons/md";
+
 import { HiDocumentReport } from "react-icons/hi";
+import ModalDeleteReport from "./ModalDeleteReport";
+import ModalReport from "./ModalReport";
+import axios from "axios";
+import { io } from "socket.io-client";
 
-function TableReports({idKitLocal}) {
-  const data = [
-    { id: "1111", fecha: "12-06-2024", hora: "12:30" },
-    { id: "1111", fecha: "03-06-2024", hora: "15:22" },
-    { id: "2222", fecha: "12-06-2024", hora: "19:45" },
-    { id: "2222", fecha: "22-06-2024", hora: "13:50" },
-    { id: "3333", fecha: "30-06-2024", hora: "08:10" },
-    { id: "4444", fecha: "11-06-2024", hora: "12:40" },
-  ];
+const SERVER_URL = "http://3.215.14.240";
 
-  const dataID = data.filter(item => item.id == idKitLocal)
+const socket = io(SERVER_URL);
+
+function TableReports({ idKitLocal }) {
+  const [token, setToken] = useState("");
+  const [data, setData] = useState([]);
+  const [newReport, setNewReport] = useState([]);
+
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (token) {
+        try {
+          const response = await axios.get(
+            `https://securitysystem.zapto.org/reportes/kit/${idKitLocal}`,
+            {
+              headers: {
+                Authorization: `${token}`,
+              },
+            }
+          );
+          setData(
+            response.data.data.map((reporte) => ({
+              ...reporte,
+              fecha: reporte.fecha.slice(0, 10),
+            }))
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    fetchData();
+  }, [token]);
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("Conectado al servidor WebSocket");
+    });
+    
+    socket.on("websocketEvent", (data) => {
+      console.log("Evento recibido desde el servidor");
+      if (data.fecha) {
+        data.fecha = data.fecha.slice(0, 10);
+      }
+      setNewReport([data])
+    });
+    
+    socket.on("disconnect", () => {
+      console.log("Desconectado del servidor WebSocket");
+    });
+
+    return () => {
+      socket.off("connect");
+    };
+  }, []);
+
+  console.log("New Report", newReport);
+
   return (
     <div className="p-6">
       <Table>
@@ -32,8 +89,9 @@ function TableReports({idKitLocal}) {
           <TableColumn className="text-center">HORA</TableColumn>
           <TableColumn className="text-center">ADMINISTRAR</TableColumn>
         </TableHeader>
+
         <TableBody>
-          {dataID.map((item) => (
+          {data.map((item) => (
             <TableRow key={item.id}>
               <TableCell>{item.id}</TableCell>
 
@@ -41,17 +99,61 @@ function TableReports({idKitLocal}) {
               <TableCell>{item.hora}</TableCell>
               <TableCell>
                 <div className="flex justify-evenly  ">
-                  <Tooltip color="danger" content="Borrar Kit">
+                  <Tooltip color="danger" content="Borrar Reporte">
                     <span className="text-lg text-danger cursor-pointer active:opacity-50">
                       <Button isIconOnly color="undefined">
-                        <MdDelete size={30} />
+                        <ModalDeleteReport IDReport={item.id} />
                       </Button>
                     </span>
                   </Tooltip>
                   <Tooltip color="primary" content="Ver Reportes">
                     <span className="text-lg text-sky-400 cursor-pointer active:opacity-50">
                       <Button isIconOnly color="undefined">
-                        <HiDocumentReport size={30} />
+                        <ModalReport
+                          IDReport={item.id}
+                          IdKit={item.idKit}
+                          DateReport={item.fecha}
+                          TimeReport={item.hora}
+                          Camara={item.camara}
+                          Movimiento={item.movimiento}
+                          Magnetico={item.magnetico}
+                          Imagen={item.imagen}
+                        />
+                      </Button>
+                    </span>
+                  </Tooltip>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
+          {newReport.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell>{item.id}</TableCell>
+
+              <TableCell>{item.fecha}</TableCell>
+              <TableCell>{item.hora}</TableCell>
+              <TableCell>
+                <div className="flex justify-evenly  ">
+                  <Tooltip color="danger" content="Borrar Reporte">
+                    <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                      <Button isIconOnly color="undefined">
+                        <ModalDeleteReport IDReport={item.id} />
+                      </Button>
+                    </span>
+                  </Tooltip>
+                  <Tooltip color="primary" content="Ver Reportes">
+                    <span className="text-lg text-sky-400 cursor-pointer active:opacity-50">
+                      <Button isIconOnly color="undefined">
+                        <ModalReport
+                          IDReport={item.id}
+                          IdKit={item.idKit}
+                          DateReport={item.fecha}
+                          TimeReport={item.hora}
+                          Camara={item.camara}
+                          Movimiento={item.movimiento}
+                          Magnetico={item.magnetico}
+                          Imagen={item.imagen}
+                        />
                       </Button>
                     </span>
                   </Tooltip>

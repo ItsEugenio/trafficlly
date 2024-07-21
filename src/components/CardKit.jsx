@@ -1,0 +1,107 @@
+import React from "react";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Divider,
+  Link,
+  Image,
+  Button,
+} from "@nextui-org/react";
+import kitImg from "../assets/KitsTraffic.png";
+import ModalEditKitT from "./ModalEditKitT";
+import ModalDeleteKit from "./Security/ModalDeleteKit";
+import { FaPeoplePulling } from "react-icons/fa6";
+
+function CardKit({ kits }) {
+  console.log("componente Cards", kits);
+
+  const verTrafficcly = (idKitT) => {
+    localStorage.setItem("kitTra", idKitT);
+    window.location.assign("/home");
+  };
+  return (
+    <>
+      {kits.length === 1 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-1 gap-16">
+          {kits.map((item) => (
+            <Card
+              className="w-64"
+              isPressable
+              onPress={() => verTrafficcly(item.id)}
+            >
+              <CardHeader className="flex gap-3">
+                <div className="flex justify-center w-full">
+                  <h1 className="text-xl">Kit de Trafficcly : {item.id}</h1>
+                </div>
+              </CardHeader>
+              <Divider />
+              <CardBody>
+                <h2 className="text-center text-lg">Nombre : {item.nombre}</h2>
+                <div className="flex justify-center w-full">
+                  <FaPeoplePulling size={130}/>
+                </div>
+              </CardBody>
+              <Divider />
+              <CardFooter>
+                <div className="flex-col justify-center w-full text-center">
+                  <h2 className="mb-4">Editar Kit</h2>
+                  <ModalEditKitT idKit={item.id} name={item.nombre} />
+                </div>
+                <div className="flex-col justify-center w-full text-center">
+                  <h2 className="mb-4">Eliminar Kit</h2>
+                  <ModalDeleteKit
+                    idKit={item.id}
+                    name={item.nombre}
+                    Trafficly="true"
+                  />
+                </div>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-16">
+          {kits.map((item) => (
+            <Card
+              className="w-64"
+              isPressable
+              onPress={() => verTrafficcly(item.id)}
+            >
+              <CardHeader className="flex gap-3">
+                <div className="flex justify-center w-full">
+                  <h1 className="text-xl">Kit de Trafficcly : {item.id}</h1>
+                </div>
+              </CardHeader>
+              <Divider />
+              <CardBody>
+                <h2 className="text-center text-lg">Nombre : {item.nombre}</h2>
+                <div className="flex justify-center w-full">
+                <FaPeoplePulling size={130}/>
+                </div>
+              </CardBody>
+              <Divider />
+              <CardFooter>
+                <div className="flex-col justify-center w-full text-center">
+                  <h2 className="mb-4">Editar Kit</h2>
+                  <ModalEditKitT idKit={item.id} name={item.nombre} />
+                </div>
+                <div className="flex-col justify-center w-full text-center">
+                  <h2 className="mb-4">Eliminar Kit</h2>
+                  <ModalDeleteKit
+                    idKit={item.id}
+                    name={item.nombre}
+                    Trafficly="true"
+                  />
+                </div>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
+export default CardKit;
