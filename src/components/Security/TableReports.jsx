@@ -17,7 +17,7 @@ import ModalReport from "./ModalReport";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-const SERVER_URL = "http://3.215.14.240";
+const SERVER_URL = "https://websocketsecurity.zapto.org";
 
 const socket = io(SERVER_URL);
 
