@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardBody, Divider, DatePicker, Button } from "@nextui-org/react";
+import { IoIosSearch } from "react-icons/io";
 
 function CardDateSelect() {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -13,8 +14,8 @@ function CardDateSelect() {
     const year = newValue?.year;
 
     if (day !== undefined && month !== undefined && year !== undefined) {
-      const formattedDay = String(day).padStart(2, '0');
-      const formattedMonth = String(month).padStart(2, '0');
+      const formattedDay = String(day).padStart(2, "0");
+      const formattedMonth = String(month).padStart(2, "0");
       const formatted = `${year}-${formattedMonth}-${formattedDay}`;
       setFormattedDate(formatted);
     }
@@ -29,28 +30,36 @@ function CardDateSelect() {
   const irFecha = () => {
     // console.log(formattedDate)
     localStorage.removeItem("fecha");
-    localStorage.setItem('fecha', formattedDate);
-    window.location.assign('/BuscarFecha');
+    localStorage.setItem("fecha", formattedDate);
+    window.location.assign("/BuscarFecha");
   };
 
   return (
-    <div className="flex justify-center m-1 sm:justify-start">
-      <Card className="w-60">
-        <CardBody className="text-center">
-          <h2>Busca una fecha</h2>
-          <Divider className="mt-2 mb-2" />
-          <DatePicker
-            value={selectedDate}
-            onChange={handleDateChange}
-            label="Selecciona la fecha"
-            className="max-w-[284px]"
-          />
-
-          <Button color="primary" className="mt-4" onClick={irFecha} size="md">
-            Buscar
-          </Button>
-        </CardBody>
-      </Card>
+    <div>
+      <h1 className="text-center text-xl">Ver Historial</h1>
+      <div className="flex justify-center m-1 sm:justify-start">
+        <Card className="w-80">
+          <CardBody className="text-center">
+            <div className="flex justify-center items-center">
+              <DatePicker
+                value={selectedDate}
+                onChange={handleDateChange}
+                label="Selecciona la fecha"
+                className="max-w-[284px]"
+              />
+              <Button
+                color="primary"
+                onClick={irFecha}
+                size="md"
+                className="ml-4"
+                isIconOnly
+              >
+                <IoIosSearch size={30} />
+              </Button>
+            </div>
+          </CardBody>
+        </Card>
+      </div>
     </div>
   );
 }

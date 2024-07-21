@@ -17,6 +17,7 @@ import {
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import '../App.css'
 
 function Login() {
   const [selected, setSelected] = React.useState("login");
@@ -131,7 +132,7 @@ function Login() {
           transition:Bounce
         />
 
-        <div className="flex flex-col w-full items-center">
+        <div className="flex flex-col w-full items-center sm: mb-36 md:mt-20">
           <Card className="max-w-full w-[340px]">
             <CardBody className="overflow-hidden">
               <Tabs

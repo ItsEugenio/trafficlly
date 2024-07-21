@@ -46,7 +46,7 @@ const formatDate = (date) => {
 
   return `${year}-${month}-${day}`;
 };
-    
+
 export default function TestChart({ lugar }) {
   const [peopleCounts, setPeopleCounts] = useState(Array(24).fill(0));
   const [peopleCountsOut, setPeopleCountsOut] = useState(Array(24).fill(0));
@@ -65,6 +65,7 @@ export default function TestChart({ lugar }) {
 
     socket.on("notificacion", (data) => {
       const { tipo, horas, personasDentro, personasFuera } = data;
+      console.log('dataa',data)
 
       if (tipo === "actualizacion") {
         // Actualizar el estado inicial de peopleCounts y peopleCountsOut
@@ -89,7 +90,7 @@ export default function TestChart({ lugar }) {
   const today = new Date();
   const formattedDate = formatDate(today);
 
-  console.log('Formated date',formattedDate)
+  
 
   return (
     <ThemeProvider theme={darkTheme}>

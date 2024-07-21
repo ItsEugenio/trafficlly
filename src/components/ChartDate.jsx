@@ -73,7 +73,7 @@ const ChartDate = ({ lugar }) => {
           series={[
             {
               curve: "linear",
-              label: `Personas que pasan ${lugar} del local`,
+              label: `Personas que pasan ${lugar} del negocio`,
               data: personas,
               color: "#fd4800",
             }

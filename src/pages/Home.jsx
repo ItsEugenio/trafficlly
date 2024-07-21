@@ -1,33 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import NavT from "../components/NavT";
 import ButtonSecurityNav from "../components/ButtonSecurityNav";
-import { Divider } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
+
 import ChartHourDaily from "../components/ChartHourDaily";
 
 import CardDateSelect from "../components/CardDateSelect";
-import ChartCompare from "../components/ChartCompare";
-
-import CardPeopleChart from "../components/CardPeopleChart";
 
 function Home() {
-  const kitTrafficlly = localStorage.getItem("kitTra");
   localStorage.removeItem("fecha");
+
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  const [authenticated, setAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const isAuthenticated = token !== null;
+    setAuthenticated(isAuthenticated);
+
+    if (!isAuthenticated) {
+      navigate("/");
+    }
+  }, [navigate, token]);
 
   return (
     <>
-      <NavT />
-      <ButtonSecurityNav />
+      {authenticated && (
+        <>
+          <NavT />
+          <ButtonSecurityNav />
 
-      <div className="flex justify-center mt-12">
-        <CardDateSelect />
-      </div>
+          <div className="flex justify-center mt-14 mb-6">
+            <CardDateSelect />
+          </div>
 
-      <Divider className="my-8" />
+          <h1 className="text-center mt-12 text-4xl">Tráfico Diario </h1>
 
-      <ChartHourDaily lugar="afuera" />
-      <ChartHourDaily lugar="adentro" />
+          <h2 className="text-center mt-12 text-2xl">
+            Personas que pasan fuera del negocio
+          </h2>
+          <ChartHourDaily lugar="afuera" />
 
-      <CardPeopleChart lugar='adentro' />
+          <h2 className="text-center text-2xl">
+            Personas que entran al negocio
+          </h2>
+          <ChartHourDaily lugar="adentro" />
+        </>
+      )}
     </>
   );
 }

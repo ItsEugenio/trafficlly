@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { LineChart } from "@mui/x-charts/LineChart";
+import { Bar } from "react-chartjs-2";
 import axios from "axios";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import "chart.js/auto"; // Importa todos los componentes necesarios desde Chart.js
 
 const darkTheme = createTheme({
   palette: {
@@ -10,20 +11,8 @@ const darkTheme = createTheme({
   },
 });
 
-const days = [
-  "Lunes",
-  "Martes",
-  "Miercoles",
-  "Jueves",
-  "Viernes",
-  "Sabado",
-  "Domingo",
-];
-
-const dataChart = [15, 88, 35, 70, 33, 6, 44];
-
 function ChartWeek({ lugar }) {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
   const [idKitWeek, setIdKitWeek] = useState("");
   const [tokenWeek, setTokenWeek] = useState("");
 
@@ -31,6 +20,7 @@ function ChartWeek({ lugar }) {
     setIdKitWeek(localStorage.getItem("kitTra"));
     setTokenWeek(localStorage.getItem("token"));
   }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       if (idKitWeek && tokenWeek) {
@@ -38,13 +28,10 @@ function ChartWeek({ lugar }) {
           const response = await axios.get(
             `https://trafficllymain.zapto.org/registro/week?lugar=${lugar}&idKit=12345`,
             {
-              headers: {
-                Authorization: tokenWeek,
-              },
+              headers: { Authorization: tokenWeek },
             }
           );
           setData(response.data);
-          
         } catch (error) {
           console.error("Error al obtener datos:", error);
         }
@@ -54,32 +41,59 @@ function ChartWeek({ lugar }) {
     fetchData();
   }, [lugar, idKitWeek, tokenWeek]);
 
-  const personas = data.weekData;
-  const personasFormated = [];
-  for (let day in personas) {
-    if (personas.hasOwnProperty(day)) {
-      personasFormated.push(personas[day]);
-    }
-  }
- 
+  // Extracción y formateo de datos
+  const weekData = data.weekData || {};
+  const labels = Object.keys(weekData);
+  const values = Object.values(weekData);
+
+  // Configuración del gráfico
+  const chartData = {
+    labels,
+    datasets: [
+      {
+        label: `Tráfico de la semana ${lugar}`,
+        data: values,
+        backgroundColor: "#00b1fd",
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false, // Permite que la gráfica ajuste su tamaño
+    plugins: {
+      legend: { position: "top" },
+      title: {
+        display: true,
+        text: `Tráfico de la semana ${lugar}`,
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          autoSkip: true, // Evita que las etiquetas del eje X se superpongan
+          maxRotation: 45, // Rota las etiquetas para que quepan en pantallas pequeñas
+          minRotation: 30,
+        },
+      },
+      y: {
+        beginAtZero: true,
+      },
+    },
+  };
 
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <div className="flex justify-center">
-        <LineChart
-          xAxis={[{ scaleType: "point", curve: "linear", data: days }]}
-          series={[
-            {
-              curve: "linear",
-              label: `Trafico de la semana ${lugar} del local`,
-              data: personasFormated,
-              color: "#00b1fd",
-            },
-          ]}
-          width={800}
-          height={400}
-        />
+        <div className="w-full max-w-4xl px-4 py-2">
+          <Bar
+            data={chartData}
+            options={chartOptions}
+            width={null} // Ajusta el ancho del gráfico a su contenedor
+            height={400} // Ajusta la altura del gráfico
+          />
+        </div>
       </div>
     </ThemeProvider>
   );

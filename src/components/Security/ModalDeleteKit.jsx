@@ -47,7 +47,7 @@ function ModalDeleteKit({ idKit, name, Trafficly }) {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1 text-center">
+              <ModalHeader className="flex flex-col gap-1 text-center text-2xl">
                 Eliminar Kit {idKit}
               </ModalHeader>
               <ModalBody>
