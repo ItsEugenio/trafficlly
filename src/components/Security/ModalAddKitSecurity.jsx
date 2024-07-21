@@ -71,7 +71,7 @@ function ModalAddKitSecurity() {
   ];
   return (
     <>
-      <Button onPress={onOpen} isIconOnly color="success">
+      <Button onPress={onOpen} isIconOnly color="success" variant="ghost" className="ml-2">
         <IoIosAddCircle size={30} />
       </Button>
       <Modal

@@ -87,8 +87,8 @@ function Security() {
         <>
           <NavbarSecurity />
           <div className="text-center h-screen">
-            <h1>Kits Disponibles</h1>
-            <h4>Puedes ver los reportes disponibles o administrar un Kit</h4>
+            <h1 className="text-4xl mb-8">Kits Disponibles</h1>
+            <h4 className="text-xl">Puedes ver los reportes disponibles o administrar un Kit</h4>
             <TableKits trafficly={false} dataTableKits={dataKit} />
           </div>
         </>

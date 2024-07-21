@@ -64,8 +64,8 @@ function ModalEditKit({ idKit }) {
   ];
   return (
     <>
-      <Button onPress={onOpen} isIconOnly color="success">
-        <MdEditSquare size={30} />
+      <Button onPress={onOpen} isIconOnly color="success" variant="ghost" size="lg" className="m-1">
+        <MdEditSquare size={40} />
       </Button>
       <Modal
         isOpen={isOpen}
@@ -77,7 +77,7 @@ function ModalEditKit({ idKit }) {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1 text-center">
+              <ModalHeader className="flex flex-col gap-1 text-center text-2xl">
                 Editar Kit {idKit}
               </ModalHeader>
               <ModalBody>
@@ -87,7 +87,7 @@ function ModalEditKit({ idKit }) {
                     placeholder={idKit}
                     disabled
                     size="lg"
-                    className="m-2"
+                    className="m-2 mb-4"
                   />
                   <Input
                     label="Nombre del Kit"
@@ -95,7 +95,7 @@ function ModalEditKit({ idKit }) {
                     size="lg"
                     value={nombre}
                     onChange={handleNameChange}
-                    className="m-2"
+                    className="m-2 mb-4"
                   />
                   <Select
                     label="Selecciona el lugar del Kit"
@@ -121,7 +121,7 @@ function ModalEditKit({ idKit }) {
                 </form>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="flat" onPress={onClose}>
+                <Button color="danger" variant="flat" onPress={onClose} size="lg">
                   Cerrar Ventana
                 </Button>
               </ModalFooter>
