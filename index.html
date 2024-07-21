@@ -7,10 +7,10 @@
     <link rel="icon" type="image/png" href="/src/assets/trafficlly.png">
     <meta http-equiv="Content-Security-Policy" 
           content="default-src 'self'; 
-                   script-src 'self' 'unsafe-inline'; 
-                   style-src 'self' 'unsafe-inline'; 
-                   img-src 'self' https://*; 
-                   connect-src 'self' https://radiant-tiramisu-0d6205.netlify.app https://websocketsecurity.zapto.org https://securitysystem.zapto.org https://trafficllymain.zapto.org/ https://websockettrafficlly.zapto.org;
+                   script-src 'self' 'nonce-<random_nonce_value>'; 
+                   style-src 'self' 'nonce-<random_nonce_value>'; 
+                   img-src 'self' https://radiant-tiramisu-0d6205.netlify.app; 
+                   connect-src 'self' https://websocketsecurity.zapto.org https://securitysystem.zapto.org https://trafficllymain.zapto.org https://websockettrafficlly.zapto.org; 
                    child-src 'none';">
   </head>
   <body class="dark text-foreground bg-background">
