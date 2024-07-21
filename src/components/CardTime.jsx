@@ -31,7 +31,7 @@ function CardTime({diaPro}) {
           <FaRegCalendarAlt size={60} />
         </div>
       </CardBody>
-      <Divider />
+      
       <CardFooter>
         <div className="flex justify-center w-full">
           <Chip color="primary" variant="dot" className="m-1">

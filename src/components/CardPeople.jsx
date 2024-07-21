@@ -14,7 +14,7 @@ function CardPeople({dia,hora,personas}) {
       <CardHeader className="flex gap-3">
         <div className="w-full">
           <h1 className="text-center font-bold">
-            DIA CON MAYOR TRAFICO DE PERSONAS DE LA SEMANA PASADA
+            HORA Y DÍA CON MAYOR TRAFICO DE PERSONAS DE LA SEMANA PASADA
           </h1>
         </div>
       </CardHeader>
@@ -24,7 +24,7 @@ function CardPeople({dia,hora,personas}) {
           <BsPeopleFill size={60} />
         </div>
       </CardBody>
-      <Divider />
+    
       <CardFooter>
         <div className="flex justify-center w-full">
           <Chip color="primary" variant="dot" className="m-1">
