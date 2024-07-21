@@ -1,9 +1,10 @@
+// src/ChartDate.js
 import React, { useState, useEffect } from "react";
-import { LineChart } from "@mui/x-charts/LineChart";
+import { Line } from "react-chartjs-2";
 import axios from "axios";
-
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import 'chart.js/auto'; // Importar todos los componentes de Chart.js
 
 const darkTheme = createTheme({
   palette: {
@@ -64,23 +65,69 @@ const ChartDate = ({ lugar }) => {
   const personas = data.map(item => item.numero_personas);
   const horas = data.map(item => item.hora);
 
+  const chartData = {
+    labels: horas,
+    datasets: [
+      {
+        label: `Personas que pasan ${lugar} del negocio`,
+        data: personas,
+        fill: false,
+        backgroundColor: 'rgba(253, 72, 0, 0.2)',
+        borderColor: '#fd4800',
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            let label = context.dataset.label || '';
+
+            if (label) {
+              label += ': ';
+            }
+            if (context.parsed.y !== null) {
+              label += `${context.parsed.y} personas a las ${context.label}`;
+            }
+            return label;
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Hora',
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Número de personas',
+        },
+        beginAtZero: true,
+      },
+      
+    },
+    elements: {
+      point: {
+        hitRadius: 20, // Aumenta el área de interacción del punto
+      }
+    }
+  };
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <div className="flex justify-center">
-        <LineChart
-          xAxis={[{ scaleType: "point", curve: "linear", data: horas }]}
-          series={[
-            {
-              curve: "linear",
-              label: `Personas que pasan ${lugar} del negocio`,
-              data: personas,
-              color: "#fd4800",
-            }
-          ]}
-          width={800}
-          height={400}
-        />
+      
+      <div style={{ height: "400px", width: "100%" }}
+        className="flex justify-center sm:p-4 sm:min-h-[400px] md:p-16 md:min-h-[700px]">
+        <Line data={chartData} options={options} />
       </div>
     </ThemeProvider>
   );

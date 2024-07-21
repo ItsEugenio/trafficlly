@@ -85,7 +85,7 @@ function HistorialTraffic() {
         <>
           <NavT />
           <ButtonSecurityNav />
-          <h1 className="text-center mt-14 text-4xl mb-12">Estadisticas</h1>
+          <h1 className="text-center mt-14 text-4xl mb-12">Estadísticas</h1>
           <div className="flex justify-center mt-6">
             <GridCards
               diaTime={diaPro}

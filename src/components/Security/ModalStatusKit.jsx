@@ -89,7 +89,7 @@ function ModalStatusKit({ status, nombre, id }) {
                   </ModalBody>
                   <ModalFooter>
                     <Button color="danger" variant="light" onPress={onClose}>
-                      Cacncelar
+                      Cancelar
                     </Button>
                   </ModalFooter>
                 </>
@@ -112,7 +112,7 @@ function ModalStatusKit({ status, nombre, id }) {
                   </ModalBody>
                   <ModalFooter>
                     <Button color="danger" variant="light" onPress={onClose}>
-                      Cacncelar
+                      Cancelar
                     </Button>
                   </ModalFooter>
                 </>

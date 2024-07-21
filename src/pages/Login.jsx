@@ -144,7 +144,7 @@ function Login() {
               >
                 <Tab key="login" title="Iniciar Sesion">
                   <form className="flex flex-col gap-4">
-                    <h2 className="text-center">Iniciar Sesion</h2>
+                    <h2 className="text-center">Iniciar Sesión</h2>
                     <div className="flex justify-center w-full ">
                       <InputComponent
                         label="Correo"
@@ -176,7 +176,7 @@ function Login() {
                         color="primary"
                         onClick={() => handleSave()}
                       >
-                        Iniciar Sesion
+                        Iniciar Sesión
                       </Button>
                     </div>
                   </form>
@@ -245,7 +245,7 @@ function Login() {
                     <p className="text-center text-small">
                       Ya tienes una cuenta?{" "}
                       <Link size="sm" onPress={() => setSelected("login")}>
-                        Iniciar sesion
+                        Iniciar sesión
                       </Link>
                     </p>
                     <div className="flex gap-2 justify-end">

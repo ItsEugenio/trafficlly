@@ -66,7 +66,7 @@ function ModalAddKitSecurity() {
 
   const sites = [
     { key: "entradaTrasera", label: "Entrada Trasera" },
-    { key: "porton", label: "Porton" },
+    { key: "portón", label: "Portón" },
     { key: "pasillo", label: "Pasillo" },
   ];
   return (

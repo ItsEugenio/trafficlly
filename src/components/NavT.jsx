@@ -32,7 +32,7 @@ function NavT() {
   const linksNav = [
     { title: "Ver Kits", link: "/KitsTrafficcly" },
     { title: "Trafficlly", link: "/Home" },
-    { title: "Estadisticas", link: "/Estadisticas" },
+    { title: "Estadísticas", link: "/Estadisticas" },
   ];
 
   const cerrarSesion = () => {
@@ -72,14 +72,14 @@ function NavT() {
         </NavbarItem>
         <NavbarItem>
           <Link color="foreground" href="/Estadisticas">
-            Estadisticas
+            Estadísticas
           </Link>
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
           <Button color="primary" variant="flat" onClick={cerrarSesion}>
-            Cerrar Sesion
+            Cerrar Sesión
           </Button>
         </NavbarItem>
       </NavbarContent>

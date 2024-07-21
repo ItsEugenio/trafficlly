@@ -167,8 +167,10 @@ export default function ChartHourDaily({ lugar }) {
 
         backgroundColor: "rgba(253, 72, 0, 0.2)",
         borderColor: "#fd4800",
-
         borderWidth: 2,
+        pointRadius: 3, // Ajusta el tamaño de los puntos aquí
+        pointHoverRadius: 6, // Ajusta el tamaño de los puntos cuando el cursor está sobre ellos
+        pointBackgroundColor: "#fd4800",
       },
     ],
   };

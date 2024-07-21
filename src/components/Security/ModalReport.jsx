@@ -57,7 +57,7 @@ function ModalReport({
                       {Camara === 1 || Camara === true ? (
                         <>
                           <Chip color="warning" variant="shadow">
-                            Camara activada
+                            Cámara activada
                           </Chip>
                         </>
                       ) : (
