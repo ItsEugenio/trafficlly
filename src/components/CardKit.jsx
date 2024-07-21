@@ -33,7 +33,7 @@ function CardKit({ kits }) {
             >
               <CardHeader className="flex gap-3">
                 <div className="flex justify-center w-full">
-                  <h1 className="text-xl">Kit de Trafficcly : {item.nombre}</h1>
+                  <h1 className="text-xl">Kit {item.nombre}</h1>
                 </div>
               </CardHeader>
              
