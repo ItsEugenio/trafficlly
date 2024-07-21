@@ -142,7 +142,7 @@ function Login() {
                 selectedKey={selected}
                 onSelectionChange={setSelected}
               >
-                <Tab key="login" title="Iniciar Sesion">
+                <Tab key="login" title="Iniciar Sesión">
                   <form className="flex flex-col gap-4">
                     <h2 className="text-center">Iniciar Sesión</h2>
                     <div className="flex justify-center w-full ">
