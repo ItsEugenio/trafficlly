@@ -108,8 +108,11 @@ export default function TableKits({ trafficly, dataTableKits }) {
                             isIconOnly
                             onClick={() => verReportes(item.id)}
                             color="primary"
+                            variant="ghost"
+                            size="lg"
+                            className="m-1"
                           >
-                            <HiDocumentReport size={30} />
+                            <HiDocumentReport size={40} />
                           </Button>
                         </span>
                       </Tooltip>

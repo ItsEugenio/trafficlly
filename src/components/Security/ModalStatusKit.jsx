@@ -51,6 +51,7 @@ function ModalStatusKit({ status, nombre, id }) {
           isIconOnly
           variant="ghost"
           color="danger"
+          className="m-1"
         >
           <IoLockClosed size={35} />
         </Button>
@@ -61,6 +62,7 @@ function ModalStatusKit({ status, nombre, id }) {
           isIconOnly
           variant="ghost"
           color="success"
+          className="m-1"
         >
           <IoLockOpen size={35} />
         </Button>

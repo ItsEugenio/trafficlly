@@ -25,12 +25,11 @@ function ReportsKit() {
       {authenticated && (
         <>
           <NavbarSecurity />
-          <div className="text-center h-screen">
-            <h1>Reportes del Kit {idKitLocal}</h1>
-            <h4>Puedes ver los detalles de cada Reporte</h4>
-
-            <TableReports idKitLocal={idKitLocal} />
+          <div className="text-center">
+            <h1 className="text-3xl mb-12">Reportes del Kit {idKitLocal}</h1>
+            <h4 className="text-xl">Puedes ver los detalles de cada Reporte</h4>
           </div>
+          <TableReports idKitLocal={idKitLocal} />
         </>
       )}
     </>

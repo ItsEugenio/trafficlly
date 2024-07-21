@@ -34,7 +34,7 @@ function ModalDeleteKit({ idKit, name, Trafficly }) {
   };
   return (
     <>
-      <Button onPress={onOpen} size="lg" isIconOnly variant="ghost" color="danger">
+      <Button onPress={onOpen} size="lg" isIconOnly variant="ghost" color="danger" className="m-1">
         <MdDelete size={40} />
       </Button>
       <Modal
