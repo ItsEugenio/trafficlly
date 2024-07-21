@@ -1,7 +1,9 @@
+// src/ChartHourDaily.js
 import React, { useEffect, useState } from "react";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import axios from "axios";
 import io from "socket.io-client";
 
 const darkTheme = createTheme({
@@ -38,65 +40,125 @@ const hours = [
 ];
 const socket = io("https://websockettrafficlly.zapto.org");
 
-
 const formatDate = (date) => {
   const day = date.getDate().toString().padStart(2, '0');
-  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Meses empiezan en 0
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const year = date.getFullYear();
-
   return `${year}-${month}-${day}`;
 };
-    
+
+const processResponseData = (data, lugar) => {
+  const peopleCounts = Array(24).fill(0);
+  data.forEach((record) => {
+    if (record.lugar === lugar) {
+      const hourIndex = hours.indexOf(record.hora);
+      if (hourIndex !== -1) {
+        peopleCounts[hourIndex] = record.numero_personas;
+      }
+    }
+  });
+  return peopleCounts;
+};
+
 export default function ChartHourDaily({ lugar }) {
   const [peopleCounts, setPeopleCounts] = useState(Array(24).fill(0));
   const [peopleCountsOut, setPeopleCountsOut] = useState(Array(24).fill(0));
+  const date = formatDate(new Date());
+  const idKit = localStorage.getItem("kitTra");
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    // Conectar al servidor WebSocket
+    const fetchData = async (lugar) => {
+      if (date && idKit && token) {
+        try {
+          const response = await axios.get(
+            `https://trafficllymain.zapto.org/registro?fecha=${date}&lugar=${lugar}&idKit=${idKit}`,
+            {
+              headers: {
+                Authorization: token,
+              }
+            }
+          );
+
+          const filteredData = processResponseData(response.data, lugar);
+          if (lugar === "adentro") {
+            setPeopleCounts(filteredData);
+          } else {
+            setPeopleCountsOut(filteredData);
+          }
+        } catch (error) {
+          console.error("Error al obtener datos:", error);
+        }
+      }
+    };
+
+    fetchData("adentro");
+    fetchData("afuera");
+
     socket.on("connect", () => {
       console.log("Conectado al servidor WebSocket");
     });
 
-    // ID del cliente (puedes reemplazar esto con el ID real del cliente)
     const idSub = 12345;
-
-    // Emitir el evento 'subscribe' con el idSub
     socket.emit("subscribe", idSub);
 
     socket.on("notificacion", (data) => {
-      const { tipo, horas, personasDentro, personasFuera } = data;
+      const { tipo, personasDentro, personasFuera } = data;
 
       if (tipo === "actualizacion") {
-        // Actualizar el estado inicial de peopleCounts y peopleCountsOut
-        setPeopleCounts(personasDentro);
-        setPeopleCountsOut(personasFuera);
+        setPeopleCounts((prevCounts) => {
+          const updatedCounts = [...prevCounts];
+          personasDentro.forEach((count, index) => {
+            if (count > 0) {
+              updatedCounts[index] = count;
+            }
+          });
+          return updatedCounts;
+        });
+
+        setPeopleCountsOut((prevCounts) => {
+          const updatedCounts = [...prevCounts];
+          personasFuera.forEach((count, index) => {
+            if (count > 0) {
+              updatedCounts[index] = count;
+            }
+          });
+          return updatedCounts;
+        });
       } else if (tipo === "personasDentro") {
-        // Actualizar peopleCounts según el tipo de notificación
-        setPeopleCounts(personasDentro);
+        setPeopleCounts((prevCounts) => {
+          const updatedCounts = [...prevCounts];
+          personasDentro.forEach((count, index) => {
+            if (count > 0) {
+              updatedCounts[index] = count;
+            }
+          });
+          return updatedCounts;
+        });
       } else if (tipo === "personasFuera") {
-        // Actualizar peopleCountsOut según el tipo de notificación
-        setPeopleCountsOut(personasFuera);
+        setPeopleCountsOut((prevCounts) => {
+          const updatedCounts = [...prevCounts];
+          personasFuera.forEach((count, index) => {
+            if (count > 0) {
+              updatedCounts[index] = count;
+            }
+          });
+          return updatedCounts;
+        });
       }
     });
 
-    // Limpiar la conexión al desmontar el componente
     return () => {
       socket.off("connect");
       socket.off("notificacion");
     };
-  }, []);
-
-  const today = new Date();
-  const formattedDate = formatDate(today);
-
-  console.log('Formated date',formattedDate)
+  }, [date, idKit, token]);
 
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       {lugar === "afuera" ? (
         <div className="flex justify-center">
-
           <LineChart
             xAxis={[{ scaleType: "point", curve: "linear", data: hours }]}
             series={[
@@ -114,7 +176,6 @@ export default function ChartHourDaily({ lugar }) {
         </div>
       ) : (
         <div className="flex justify-center">
-          
           <LineChart
             xAxis={[{ scaleType: "point", curve: "linear", data: hours }]}
             series={[
@@ -133,8 +194,3 @@ export default function ChartHourDaily({ lugar }) {
     </ThemeProvider>
   );
 }
-
-
-
-
-
