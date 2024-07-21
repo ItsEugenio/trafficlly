@@ -3,6 +3,7 @@ import NavT from "../components/NavT";
 import CardDateSelect from "../components/CardDateSelect";
 import ChartDate from "../components/ChartDate";
 import { useNavigate } from "react-router-dom";
+import ButtonSecurityNav from "../components/ButtonSecurityNav";
 
 function BuscarFecha() {
   const dia = localStorage.getItem("fecha");
@@ -25,7 +26,8 @@ function BuscarFecha() {
       {authenticated && (
         <>
           <NavT />
-          <div className="flex justify-center">
+          <ButtonSecurityNav />
+          <div className="flex justify-center mt-8">
             <CardDateSelect />
           </div>
 

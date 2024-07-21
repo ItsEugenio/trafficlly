@@ -50,17 +50,20 @@ function KitsTrafficlly() {
         <>
           <NavT />
           <ButtonSecurityNav />
-          <div className="text-center h-dvh">
-            <h1 className="text-4xl mb-4 mt-4">Kits Disponibles</h1>
-            <h4 className="text-xl">Puedes agregar y ver un Kit Trafficcly</h4>
+         
+            <h1 className="text-center text-4xl mb-4 mt-4">Kits Disponibles</h1>
+            <h4 className="text-center text-xl">
+              Puedes agregar y ver un Kit Trafficcly
+            </h4>
+
             <div className="flex justify-center mt-6">
               <AddKit />
             </div>
-            {/* <TableKits trafficly={true} dataTableKits={data} /> */}
-            <div className="flex justify-center mt-4">
+
+            <div className="flex justify-center mt-4 pb-72">
               <CardKit kits={data} />
             </div>
-          </div>
+          
         </>
       )}
     </>

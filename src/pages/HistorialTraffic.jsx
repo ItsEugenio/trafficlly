@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import GridCards from "../components/GridCards";
 import ChartWeek from "../components/ChartWeek";
 import NavT from "../components/NavT";
-import { format, startOfWeek, subDays } from "date-fns";
+import { format, startOfWeek, subDays, isSunday } from "date-fns";
 import axios from "axios";
 import ButtonSecurityNav from "../components/ButtonSecurityNav";
 
@@ -28,10 +28,15 @@ function HistorialTraffic() {
 
   useEffect(() => {
     const today = new Date();
-    const startOfThisWeek = startOfWeek(today, { weekStartsOn: 1 }); // assuming week starts on Monday
-    const lastSundayDate = subDays(startOfThisWeek, 1);
-    const formattedDate = format(lastSundayDate, "yyyy-MM-dd");
 
+    let lastSundayDate;
+    if (isSunday(today)) {
+      lastSundayDate = today;
+    } else {
+      const startOfThisWeek = startOfWeek(today, { weekStartsOn: 1 }); // assuming week starts on Monday
+      lastSundayDate = subDays(startOfThisWeek, 1);
+    }
+    const formattedDate = format(lastSundayDate, "yyyy-MM-dd");
     setLastSunday(formattedDate);
   }, []);
 
@@ -54,7 +59,7 @@ function HistorialTraffic() {
       }
     };
     fetchData();
-  }, [token, lastSunday]); // Añadir lastSunday como dependencia para que se ejecute después de que se haya actualizado
+  }, [token, lastSunday]);
 
   useEffect(() => {
     const fetchData = async () => {
