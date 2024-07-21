@@ -1,0 +1,2 @@
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-<random_nonce_value>'; style-src 'self' 'nonce-<random_nonce_value>'; img-src 'self' https://radiant-tiramisu-0d6205.netlify.app; connect-src 'self' https://websocketsecurity.zapto.org https://securitysystem.zapto.org https://trafficllymain.zapto.org https://websockettrafficlly.zapto.org; child-src 'none'
