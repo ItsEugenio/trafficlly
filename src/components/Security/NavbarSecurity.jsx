@@ -16,10 +16,7 @@ import trafficLogo from "../../assets/trafficlly.png";
 function NavbarSecurity() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-  const menuItems = [
-    "Kits",
-
-  ];
+  const menuItems = ["Kits"];
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>
@@ -28,8 +25,14 @@ function NavbarSecurity() {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <img src={trafficLogo} alt='trafficlly' width="60px" />
-          <p className="font-bold text-inherit">Security</p>
+          <a href="/Security">
+            <div className="flex">
+              <img src={trafficLogo} alt="trafficlly" width="60px" />
+              <div className="flex justify-center items-center">
+                <p className="text-xs sm:text-xs md:text-xl">Security</p>
+              </div>
+            </div>
+          </a>
         </NavbarBrand>
       </NavbarContent>
 
@@ -43,12 +46,11 @@ function NavbarSecurity() {
       <NavbarContent justify="end">
         <NavbarItem>
           <div className="flex justify-center items-center">
-           
             <ModalAddKitSecurity />
           </div>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="/home" variant="flat">
+          <Button as={Link} color="primary" href="/Home" variant="flat">
             Trafficlly
           </Button>
         </NavbarItem>
@@ -56,12 +58,7 @@ function NavbarSecurity() {
       <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              color='primary'
-              className="w-full"
-              href="/Security"
-              size="lg"
-            >
+            <Link color="primary" className="w-full" href="/Security" size="lg">
               {item}
             </Link>
           </NavbarMenuItem>

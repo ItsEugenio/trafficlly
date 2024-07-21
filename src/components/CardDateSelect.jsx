@@ -38,7 +38,7 @@ function CardDateSelect() {
     <div>
       <h1 className="text-center text-xl">Ver Historial</h1>
       <div className="flex justify-center m-1 sm:justify-start">
-        <Card className="w-80">
+        <Card className="w-64 sm:w-64 md:w-96">
           <CardBody className="text-center">
             <div className="flex justify-center items-center">
               <DatePicker

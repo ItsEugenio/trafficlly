@@ -52,7 +52,7 @@ function NavT() {
             <div className="flex">
               <img src={trafficLogo} alt="" width="60px" />
               <div className="flex justify-center items-center">
-                <h2 className="font-bold text-inherit text-center">Trafficlly</h2>
+                <h2 className="font-bold text-inherit text-center text-xs sm:text-xs md:text-2xl">Trafficlly</h2>
               </div>
             </div>
           </a>

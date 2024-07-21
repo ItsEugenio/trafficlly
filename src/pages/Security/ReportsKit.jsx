@@ -29,7 +29,9 @@ function ReportsKit() {
             <h1 className="text-3xl mb-12">Reportes del Kit {idKitLocal}</h1>
             <h4 className="text-xl">Puedes ver los detalles de cada Reporte</h4>
           </div>
-          <TableReports idKitLocal={idKitLocal} />
+          <div className="h-dvh pb-72">
+            <TableReports idKitLocal={idKitLocal} />
+          </div>
         </>
       )}
     </>
