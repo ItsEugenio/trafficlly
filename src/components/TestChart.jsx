@@ -47,7 +47,7 @@ const formatDate = (date) => {
   return `${year}-${month}-${day}`;
 };
     
-export default function ChartHourDaily({ lugar }) {
+export default function TestChart({ lugar }) {
   const [peopleCounts, setPeopleCounts] = useState(Array(24).fill(0));
   const [peopleCountsOut, setPeopleCountsOut] = useState(Array(24).fill(0));
 
@@ -133,8 +133,6 @@ export default function ChartHourDaily({ lugar }) {
     </ThemeProvider>
   );
 }
-
-
 
 
 

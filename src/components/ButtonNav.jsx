@@ -1,21 +1,17 @@
 import React from "react";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  Button,
-  Input,
-} from "@nextui-org/react";
+import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
 import { PiSecurityCameraBold } from "react-icons/pi";
 
 function ButtonNav() {
   const content = (
-    <PopoverContent className="w-[240px]">
+    <PopoverContent className="w-[240px]  ">
       {(titleProps) => (
-        <div className="px-1 py-2 w-full">
+        <div className="px-1 py-2 w-full ">
           <div className="mt-2 flex flex-col gap-2 w-full">
             <a href="/Security">
-              <h2 className="text-center ">Ir al Sistema de seguridad</h2>
+              <h2 className="text-center text-withe">
+                Ir al Sistema de seguridad
+              </h2>
             </a>
           </div>
         </div>
@@ -32,7 +28,7 @@ function ButtonNav() {
               <PiSecurityCameraBold size={20}/>
               </Button> */}
               <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-              <PiSecurityCameraBold size={25}/>
+                <PiSecurityCameraBold size={25} />
               </button>
             </PopoverTrigger>
             {content}

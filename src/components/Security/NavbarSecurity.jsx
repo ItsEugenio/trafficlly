@@ -10,6 +10,8 @@ import {
   Link,
   Button,
 } from "@nextui-org/react";
+import ModalAddKitSecurity from './ModalAddKitSecurity';
+
 function NavbarSecurity() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
@@ -44,28 +46,20 @@ function NavbarSecurity() {
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
-          <Link color="foreground" href="/Security">
+          <Link isActive aria-current="page" href="/Security" size="lg">
             KITS
           </Link>
         </NavbarItem>
-        <NavbarItem isActive>
-          <Link href="/Reportes" aria-current="page">
-            REPORTES
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
-          </Link>
-        </NavbarItem>
+
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
+          <h1 classname='text-center' >Agregar Kit</h1>
+            <ModalAddKitSecurity />
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Sign Up
+          <Button as={Link} color="primary" href="/home" variant="flat">
+            Trafficlly
           </Button>
         </NavbarItem>
       </NavbarContent>

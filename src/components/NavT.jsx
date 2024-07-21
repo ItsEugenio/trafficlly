@@ -10,7 +10,7 @@ import {
   Link,
   Button,
 } from "@nextui-org/react";
-
+import '../App.css'
 function NavT() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
@@ -26,62 +26,73 @@ function NavT() {
     "Help & Feedback",
     "Log Out",
   ];
+
+  const linksNav = [
+    { title: "Ver Kits", link: "/KitsTrafficcly" },
+    { title: "Trafficlly", link: "/Home" },
+    { title: "Estadisticas", link: "/Estadisticas" },
+  ];
+
+  const cerrarSesion = () => {
+    localStorage.removeItem("token");
+    window.location.assign("/");
+  };
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen}>
+    <Navbar onMenuOpenChange={setIsMenuOpen} className="bg-navbarPrimary">
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
         <NavbarBrand>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" alt="" width='30px' />
-          <p className="font-bold text-inherit">Trafficlly</p>
+          <a href="/home">
+            <div className="flex">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png"
+                alt=""
+                width="30px"
+              />
+              <p className="font-bold text-inherit">Trafficlly</p>
+            </div>
+          </a>
         </NavbarBrand>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
-          <Link color="foreground" href="#">
-            Features
+          <Link color="foreground" href="/KitsTrafficcly">
+            Ver Kits
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
-          <Link href="#" aria-current="page">
-            Customers
+          <Link href="/home" aria-current="page">
+            Trafficlly
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
+          <Link color="foreground" href="/Estadisticas">
+            Estadisticas
           </Link>
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
-        </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Sign Up
+          <Button color="primary" variant="flat" onClick={cerrarSesion}>
+            Cerrar Sesion
           </Button>
+          
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
+        {linksNav.map((item) => (
+          <NavbarMenuItem key={`${item}`}>
             <Link
-              color={
-                index === 2
-                  ? "primary"
-                  : index === menuItems.length - 1
-                  ? "danger"
-                  : "foreground"
-              }
+              color="foreground"
               className="w-full"
-              href="#"
+              href={item.link}
               size="lg"
             >
-              {item}
+              {item.title}
             </Link>
           </NavbarMenuItem>
         ))}
