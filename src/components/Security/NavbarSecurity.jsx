@@ -43,7 +43,7 @@ function NavbarSecurity() {
       <NavbarContent justify="end">
         <NavbarItem>
           <div className="flex justify-center items-center">
-            <h1 classname="text-center">Agregar Kit</h1>
+           
             <ModalAddKitSecurity />
           </div>
         </NavbarItem>
