@@ -32,6 +32,25 @@ function ModalDeleteKit({ idKit, name, Trafficly }) {
       console.log("Error al guardar los datos.");
     }
   };
+
+  const deleteKitSecurity = async (idKit) => {
+    try {
+      const response = await axios.delete(
+        `https://securitysystem.zapto.org/kits/${idKit}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
+
+      console.log("Datos guardados correctamente.");
+      window.location.assign("/Security");
+    } catch (error) {
+      console.log("Error al guardar los datos.");
+    }
+  };
+
   return (
     <>
       <Button onPress={onOpen} size="lg" isIconOnly variant="ghost" color="danger" className="m-1">
@@ -73,7 +92,7 @@ function ModalDeleteKit({ idKit, name, Trafficly }) {
                     color="danger"
                     size="lg"
                     variant="ghost"
-                    
+                    onClick={() => deleteKitSecurity(idKit)}
                   >
                     Eliminar Kit
                   </Button>
