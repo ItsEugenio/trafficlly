@@ -31,6 +31,9 @@ function ReportsKit() {
             <div className="dark text-foreground bg-background ">
               <TableReports idKitLocal={idKitLocal} />
             </div>
+            <div className="h-dvh">
+
+            </div>
           </div>
           {/* <div className="pb-72">
             <TableReports idKitLocal={idKitLocal} />
