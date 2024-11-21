@@ -3,7 +3,7 @@ import NavbarSecurity from "../../components/Security/NavbarSecurity";
 import TableKits from "../../components/Security/TableKits";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { urls } from "../../components/utils/urlsLocal";
 function Security() {
   const [token, setToken] = useState("");
   const [correo, setCorreo] = useState("");
@@ -31,7 +31,7 @@ function Security() {
       if (token) {
         try {
           const response = await axios.get(
-            `https://trafficllymain.zapto.org/usuarios`,
+            `${urls.backTrafficlly}/usuarios`,
             {
               headers: {
                 Authorization: `${token}`,
@@ -53,14 +53,14 @@ function Security() {
       if (token) {
         try {
           const response = await axios.get(
-            `https://securitysystem.zapto.org/kits/propietario/${correo}`,
+            `${urls.backSystem}/kits/propietario/${correo}`,
             {
               headers: {
                 Authorization: `${token}`,
               },
             }
           );
-          console.log("response HTTPS", response);
+          
           setDataKit(response.data.data);
         } catch (error) {
           console.log(error);

@@ -14,7 +14,7 @@ function CardPeople({dia,hora,personas}) {
       <CardHeader className="flex gap-3">
         <div className="w-full">
           <h1 className="text-center font-bold">
-            HORA Y DÍA CON MAYOR TRAFICO DE PERSONAS DE LA SEMANA PASADA
+            HORA Y DÍA CON MAYOR TRÁFICO DE PERSONAS DE LA SEMANA PASADA
           </h1>
         </div>
       </CardHeader>

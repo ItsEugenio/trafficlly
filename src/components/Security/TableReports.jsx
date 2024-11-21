@@ -16,8 +16,9 @@ import ModalDeleteReport from "./ModalDeleteReport";
 import ModalReport from "./ModalReport";
 import axios from "axios";
 import { io } from "socket.io-client";
+import { urls } from "../utils/urlsLocal";
 
-const SERVER_URL = "https://websocketsecurity.zapto.org";
+const SERVER_URL = urls.webSocketSecurity;
 
 const socket = io(SERVER_URL);
 
@@ -35,7 +36,7 @@ function TableReports({ idKitLocal }) {
       if (token) {
         try {
           const response = await axios.get(
-            `https://securitysystem.zapto.org/reportes/kit/${idKitLocal}`,
+            `${urls.backSystem}/reportes/kit/${idKitLocal}`,
             {
               headers: {
                 Authorization: `${token}`,

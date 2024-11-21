@@ -10,15 +10,17 @@ import {
 } from "@nextui-org/react";
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
+import { urls } from "../utils/urlsLocal";
 
 function ModalDeleteKit({ idKit, name, Trafficly }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const token = localStorage.getItem("token");
+  const correo = localStorage.getItem("correoSystem");
 
   const deleteKitTraffic = async (idKit) => {
     try {
       const response = await axios.delete(
-        `https://trafficllymain.zapto.org/kits/${idKit}`,
+        `${urls.backTrafficlly}/kits/${idKit}`,
         {
           headers: {
             Authorization: `${token}`,
@@ -35,14 +37,11 @@ function ModalDeleteKit({ idKit, name, Trafficly }) {
 
   const deleteKitSecurity = async (idKit) => {
     try {
-      const response = await axios.delete(
-        `https://securitysystem.zapto.org/kits/${idKit}`,
-        {
-          headers: {
-            Authorization: `${token}`,
-          },
-        }
-      );
+      const response = await axios.delete(`${urls.backSystem}/kits/${idKit}`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
 
       console.log("Datos guardados correctamente.");
       window.location.assign("/Security");
@@ -51,9 +50,34 @@ function ModalDeleteKit({ idKit, name, Trafficly }) {
     }
   };
 
+  const deleteUser = async (correo) => {
+    try {
+      const response = await axios.delete(
+        `${urls.backTrafficlly}/usuarios/${correo}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
+
+      console.log("Datos guardados correctamente.");
+      window.location.assign("/");
+    } catch (error) {
+      console.log("Error al guardar los datos.");
+    }
+  };
+
   return (
     <>
-      <Button onPress={onOpen} size="lg" isIconOnly variant="ghost" color="danger" className="m-1">
+      <Button
+        onPress={onOpen}
+        size="lg"
+        isIconOnly
+        variant="ghost"
+        color="danger"
+        className="m-1"
+      >
         <MdDelete size={40} />
       </Button>
       <Modal
@@ -67,7 +91,11 @@ function ModalDeleteKit({ idKit, name, Trafficly }) {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1 text-center text-2xl">
-                Eliminar Kit {idKit}
+                {Trafficly === "user" ? (
+                  <>Eliminar cuenta</>
+                ) : (
+                  <>Eliminar Kit {idKit}</>
+                )}
               </ModalHeader>
               <ModalBody>
                 <div className="flex justify-center w-full">
@@ -87,15 +115,24 @@ function ModalDeleteKit({ idKit, name, Trafficly }) {
                         </div>
                       </div>
                     </>
+                  ) : Trafficly === "user" ? (
+                    <Button
+                      color="danger"
+                      size="lg"
+                      variant="ghost"
+                      onClick={() => deleteUser(correo)}
+                    >
+                      Eliminar Cuenta
+                    </Button>
                   ) : (
                     <Button
-                    color="danger"
-                    size="lg"
-                    variant="ghost"
-                    onClick={() => deleteKitSecurity(idKit)}
-                  >
-                    Eliminar Kit
-                  </Button>
+                      color="danger"
+                      size="lg"
+                      variant="ghost"
+                      onClick={() => deleteKitSecurity(idKit)}
+                    >
+                      Eliminar Kit
+                    </Button>
                   )}
                 </div>
               </ModalBody>

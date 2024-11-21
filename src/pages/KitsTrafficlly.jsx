@@ -6,6 +6,8 @@ import CardKit from "../components/CardKit";
 import AddKit from "../components/AddKit";
 import axios from "axios";
 import ButtonSecurityNav from "../components/ButtonSecurityNav";
+import { urls } from "../components/utils/urlsLocal";
+import { isTokenExpired } from "../components/utils/jwtUtil";
 
 function KitsTrafficlly() {
   const token = localStorage.getItem("token");
@@ -16,28 +18,34 @@ function KitsTrafficlly() {
   useEffect(() => {
     const isAuthenticated = token !== null;
     setAuthenticated(isAuthenticated);
-    console.log("tokeeen", token);
-
     if (!isAuthenticated) {
       navigate("/");
     }
   }, [navigate, token]);
 
   useEffect(() => {
+    if (isTokenExpired(token)) {
+      console.log("Token caducado.");
+      navigate("/");
+    }
+  }, []);
+
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://trafficllymain.zapto.org/kits/usuario/unique`,
+          `${urls.backTrafficlly}/kits/usuario/unique`,
           {
             headers: {
               Authorization: `${token}`,
             },
           }
         );
-        console.log("respo", response.data);
         setData(response.data);
+        console.log("dataKits", response.data);
       } catch (error) {
-        console.error("Error al obtener datos:", error);
+        toast.error("Error de conexion");
       }
     };
 
@@ -46,7 +54,7 @@ function KitsTrafficlly() {
 
   return (
     <>
-      {authenticated && (
+      {/* {authenticated && ( */}
         <>
           <NavT />
           <ButtonSecurityNav />
@@ -63,12 +71,10 @@ function KitsTrafficlly() {
             <div className="flex justify-center mt-4 pb-72 dark text-foreground bg-background ">
               <CardKit kits={data} />
             </div>
-            <div className="h-dvh">
-
-            </div>
+            <div className="h-dvh"></div>
           </div>
         </>
-      )}
+      {/* )} */}
     </>
   );
 }

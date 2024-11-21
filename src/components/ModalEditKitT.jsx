@@ -12,12 +12,14 @@ import {
 } from "@nextui-org/react";
 import { MdPermIdentity } from "react-icons/md";
 import { MdEditSquare } from "react-icons/md";
-
-function ModalEditKitT({idKit,name}) {
+import { urls } from "./utils/urlsLocal";
+function ModalEditKitT({idKit,name,tipo}) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [nombre, setNombre] = useState("");
+  const [password, setPassword] = useState("")
 
   const token = localStorage.getItem("token");
+  const correo = localStorage.getItem('correoSystem')
 
 
 
@@ -25,14 +27,16 @@ function ModalEditKitT({idKit,name}) {
     setNombre(event.target.value);
   };
 
+  const handlePasswdChange = (event) => {
+    setPassword(event.target.value)
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-
     try {
     
       const response = await axios.put(
-        `https://trafficllymain.zapto.org/kits/${idKit}`,
+        `${urls.backTrafficlly}/kits/${idKit}`,
         {
           nombre,
         },
@@ -51,6 +55,29 @@ function ModalEditKitT({idKit,name}) {
     }
   };
 
+  const handlePut = async (e) =>{
+    e.preventDefault();
+    try {
+      const response = await axios.put(
+        `${urls.backTrafficlly}/usuarios/${correo}`,
+        {
+          password,
+        },
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
+
+      console.log("Datos guardados correctamente.");
+      window.location.assign('/KitsTrafficcly')
+
+    } catch (error) {
+      console.log("Error al guardar los datos.");
+    }
+  }
+
   return (
     <>
       <Button onPress={onOpen} size="lg" isIconOnly variant="ghost" color="success" > 
@@ -60,7 +87,9 @@ function ModalEditKitT({idKit,name}) {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1 text-xl">
+            {tipo === 'kit' ? (
+              <> 
+                <ModalHeader className="flex flex-col gap-1 text-xl">
               Editar Kit de Trafficlly : {name}
               </ModalHeader>
               <ModalBody>
@@ -90,6 +119,41 @@ function ModalEditKitT({idKit,name}) {
                   Cancelar
                 </Button>
               </ModalFooter>
+              </>
+            ):(
+              <> 
+                <ModalHeader className="flex flex-col gap-1 text-xl">
+              Editar contraseña
+              </ModalHeader>
+              <ModalBody>
+                <form onSubmit={handlePut}>
+                  <Input
+                    className="m-2"
+                    endContent={
+                      <MdPermIdentity className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                    }
+                    label="Contraseña"
+                    placeholder="Ingrese la nueva contraseña"
+                    type="text"
+                    variant="bordered"
+                    value={password}
+                    onChange={handlePasswdChange}
+                  />
+                  <div className="flex justify-center w-full">
+                    <Button color="success" type="submit" className="m-2" variant="ghost" size="lg">
+                      Editar Contraseña
+                    </Button>
+                  </div>
+                </form>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="flat" onPress={onClose}>
+                  Cancelar
+                </Button>
+              </ModalFooter>
+              </>
+            )}
+        
             </>
           )}
         </ModalContent>

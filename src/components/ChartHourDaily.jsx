@@ -7,7 +7,7 @@ import axios from "axios";
 import io from "socket.io-client";
 
 import "chart.js/auto";
-
+import { urls } from "./utils/urlsLocal";
 
 const darkTheme = createTheme({
   palette: {
@@ -41,7 +41,8 @@ const hours = [
   "22:00",
   "23:00",
 ];
-const socket = io("https://websockettrafficlly.zapto.org");
+
+const socket = io(urls.webSocketTrafficlly);
 
 const formatDate = (date) => {
   const day = date.getDate().toString().padStart(2, "0");
@@ -70,12 +71,16 @@ export default function ChartHourDaily({ lugar }) {
   const idKit = localStorage.getItem("kitTra");
   const token = localStorage.getItem("token");
 
+  // Recuperar los datos previos del localStorage, si existen
+  const storedPeopleCounts = JSON.parse(localStorage.getItem(`peopleCounts_${lugar}`)) || Array(24).fill(0);
+  const storedPeopleCountsOut = JSON.parse(localStorage.getItem(`peopleCountsOut_${lugar}`)) || Array(24).fill(0);
+
   useEffect(() => {
     const fetchData = async (lugar) => {
       if (date && idKit && token) {
         try {
           const response = await axios.get(
-            `https://trafficllymain.zapto.org/registro?fecha=${date}&lugar=${lugar}&idKit=${idKit}`,
+            `${urls.backTrafficlly}/registro?fecha=${date}&lugar=${lugar}&idKit=${idKit}`,
             {
               headers: {
                 Authorization: token,
@@ -84,6 +89,8 @@ export default function ChartHourDaily({ lugar }) {
           );
 
           const filteredData = processResponseData(response.data, lugar);
+
+          // Actualizar los estados con los datos obtenidos
           if (lugar === "adentro") {
             setPeopleCounts(filteredData);
           } else {
@@ -116,6 +123,7 @@ export default function ChartHourDaily({ lugar }) {
               updatedCounts[index] = count;
             }
           });
+          localStorage.setItem(`peopleCounts_adentro`, JSON.stringify(updatedCounts));
           return updatedCounts;
         });
 
@@ -126,6 +134,7 @@ export default function ChartHourDaily({ lugar }) {
               updatedCounts[index] = count;
             }
           });
+          localStorage.setItem(`peopleCountsOut_afuera`, JSON.stringify(updatedCounts));
           return updatedCounts;
         });
       } else if (tipo === "personasDentro") {
@@ -136,6 +145,7 @@ export default function ChartHourDaily({ lugar }) {
               updatedCounts[index] = count;
             }
           });
+          localStorage.setItem(`peopleCounts_adentro`, JSON.stringify(updatedCounts));
           return updatedCounts;
         });
       } else if (tipo === "personasFuera") {
@@ -146,6 +156,7 @@ export default function ChartHourDaily({ lugar }) {
               updatedCounts[index] = count;
             }
           });
+          localStorage.setItem(`peopleCountsOut_afuera`, JSON.stringify(updatedCounts));
           return updatedCounts;
         });
       }
@@ -164,12 +175,11 @@ export default function ChartHourDaily({ lugar }) {
         label: `Personas que pasan ${lugar} del negocio`,
         data: peopleCounts,
         fill: false,
-
         backgroundColor: "rgba(253, 72, 0, 0.2)",
         borderColor: "#fd4800",
         borderWidth: 2,
-        pointRadius: 3, // Ajusta el tamaño de los puntos aquí
-        pointHoverRadius: 6, // Ajusta el tamaño de los puntos cuando el cursor está sobre ellos
+        pointRadius: 3,
+        pointHoverRadius: 6,
         pointBackgroundColor: "#fd4800",
       },
     ],
@@ -182,14 +192,12 @@ export default function ChartHourDaily({ lugar }) {
         label: `Personas que pasan ${lugar} del negocio`,
         data: peopleCountsOut,
         fill: false,
-
         backgroundColor: "rgba(253, 72, 0, 0.2)",
         borderColor: "#fd4800",
         borderWidth: 2,
-        pointRadius: 3, // Ajusta el tamaño de los puntos aquí
-        pointHoverRadius: 6, // Ajusta el tamaño de los puntos cuando el cursor está sobre ellos
+        pointRadius: 3,
+        pointHoverRadius: 6,
         pointBackgroundColor: "#fd4800",
-
       },
     ],
   };
@@ -201,12 +209,9 @@ export default function ChartHourDaily({ lugar }) {
       tooltip: {
         callbacks: {
           label: function (context) {
-
             let label1 = "Número de personas";
-
             if (label1) {
               label1 += ": ";
-
             }
             if (context.parsed.y !== null) {
               label1 += `${context.parsed.y}`;
@@ -220,24 +225,20 @@ export default function ChartHourDaily({ lugar }) {
       x: {
         title: {
           display: true,
-
           text: "Hora",
-
         },
       },
       y: {
         title: {
           display: true,
-
           text: "Número de personas",
-
         },
         beginAtZero: true,
       },
     },
     elements: {
       point: {
-        hitRadius: 20, // Aumenta el área de interacción del punto
+        hitRadius: 20,
       },
     },
   };
@@ -245,12 +246,10 @@ export default function ChartHourDaily({ lugar }) {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-
       <div
         style={{ height: "400px", width: "100%" }}
         className="flex justify-center sm:p-4 sm:min-h-[400px] md:p-16 md:min-h-[700px]"
       >
-
         {lugar === "afuera" ? (
           <Line data={dataAfuera} options={options} />
         ) : (

@@ -3,7 +3,7 @@ import { LineChart } from "@mui/x-charts/LineChart";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import io from "socket.io-client";
-
+import { urls } from "./utils/urlsLocal";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -36,7 +36,7 @@ const hours = [
   "22:00",
   "23:00",
 ];
-const socket = io("https://websockettrafficlly.zapto.org");
+const socket = io(urls.webSocketTrafficlly);
 
 
 const formatDate = (date) => {

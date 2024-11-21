@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardBody, Divider, DatePicker, Button } from "@nextui-org/react";
 import { IoIosSearch } from "react-icons/io";
+import {getLocalTimeZone, today} from "@internationalized/date";
 
 function CardDateSelect() {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -46,6 +47,7 @@ function CardDateSelect() {
                 onChange={handleDateChange}
                 label="Selecciona la fecha"
                 className="max-w-[284px]"
+                maxValue={today(getLocalTimeZone())}
               />
               <Button
                 color="primary"
