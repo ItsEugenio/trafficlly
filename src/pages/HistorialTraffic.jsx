@@ -6,7 +6,8 @@ import NavT from "../components/NavT";
 import { format, startOfWeek, subDays, isSunday } from "date-fns";
 import axios from "axios";
 import ButtonSecurityNav from "../components/ButtonSecurityNav";
-
+import { urls } from "../components/utils/urlsLocal";
+import { isTokenExpired } from "../components/utils/jwtUtil";
 function HistorialTraffic() {
   const [lastSunday, setLastSunday] = useState("");
   const token = localStorage.getItem("token");
@@ -45,7 +46,7 @@ function HistorialTraffic() {
       if (token && lastSunday) {
         try {
           const response = await axios.get(
-            `https://trafficllymain.zapto.org/probabilidades?fecha=${lastSunday}`,
+            `${urls.backTrafficlly}/probabilidades?fecha=${lastSunday}`,
             {
               headers: {
                 Authorization: `${token}`,
@@ -66,7 +67,7 @@ function HistorialTraffic() {
       if (token && lastSunday) {
         try {
           const response = await axios.get(
-            `https://trafficllymain.zapto.org/concurrencias?fecha=${lastSunday}&lugar=ambos`,
+            `${urls.backTrafficlly}/concurrencias?fecha=${lastSunday}&lugar=ambos`,
             {
               headers: {
                 Authorization: `${token}`,
@@ -83,6 +84,13 @@ function HistorialTraffic() {
     };
     fetchData();
   }, [token, lastSunday]);
+
+  useEffect(() => {
+    if (isTokenExpired(token)) {
+      console.log("Token caducado.");
+      navigate("/");
+    }
+  }, []);
 
   return (
     <>

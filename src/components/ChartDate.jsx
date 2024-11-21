@@ -5,7 +5,7 @@ import axios from "axios";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import 'chart.js/auto'; // Importar todos los componentes de Chart.js
-
+import { urls } from "./utils/urlsLocal";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -29,7 +29,7 @@ const ChartDate = ({ lugar }) => {
       if (date && idKit && token) {
         try {
           const response = await axios.get(
-            `https://trafficllymain.zapto.org/registro?fecha=${date}&lugar=${lugar}&idKit=${idKit}`,
+            `${urls.backTrafficlly}/registro?fecha=${date}&lugar=${lugar}&idKit=${idKit}`,
             {
               headers: {
                 Authorization: token,

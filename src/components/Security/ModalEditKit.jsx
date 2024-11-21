@@ -13,7 +13,7 @@ import {
 } from "@nextui-org/react";
 import { MdEditSquare } from "react-icons/md";
 import axios from "axios";
-
+import { urls } from "../utils/urlsLocal";
 function ModalEditKit({ idKit }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [nombre, setNombre] = useState("");
@@ -34,7 +34,7 @@ function ModalEditKit({ idKit }) {
 
     try {
       const response = await axios.put(
-        `https://securitysystem.zapto.org/kits/${idKit}`,
+        `${urls.backSystem}/kits/${idKit}`,
         {
           id: idKit,
           nombre,

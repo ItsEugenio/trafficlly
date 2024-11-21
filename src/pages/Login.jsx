@@ -17,7 +17,8 @@ import {
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import '../App.css'
+import "../App.css";
+import { urls } from "../components/utils/urlsLocal";
 
 function Login() {
   const [selected, setSelected] = React.useState("login");
@@ -57,62 +58,90 @@ function Login() {
     try {
       const datosForms = inputValues;
       const { correo, password } = datosForms;
-
-      const response = await axios.post(
-        "https://trafficllymain.zapto.org/auth/login",
-        {
-          correo,
-          password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
+      if (!correo || !password) {
+        toast.warn("Recuerda llenar todos los campos");
+      } else {
+        const response = await axios.post(
+          `${urls.backTrafficlly}/auth/login`,
+          {
+            correo,
+            password,
           },
-        }
-      );
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-      toast.success("Bienvenido");
-      setTimeout(() => {
-        const token = response.data.token;
-        if (token) {
-          localStorage.setItem("token", token);
-          window.location.assign("/KitsTrafficcly");
-        }
-      }, 2000);
+        toast.success("Bienvenido");
+        setTimeout(() => {
+          const token = response.data.token;
+          if (token) {
+            localStorage.setItem("token", token);
+            localStorage.setItem("correoSystem", correo);
+            window.location.assign("/KitsTrafficcly");
+          }
+        }, 2000);
+      }
     } catch (error) {
-      console.log("Error en la página de login:", error);
-      toast.error("Correo o Contraseña incorrectas");
+      if (error.code == "ERR_NETWORK") {
+        toast.error("Error de conexion");
+      } else {
+        toast.error("Correo o Contraseña incorrectas");
+      }
     }
   };
 
   const saveRegister = async () => {
+    const ver = "";
     const datosForms = inputRegisterV;
     const { telefono, nombres, apellidos, correo, password, domicilio } =
       datosForms;
-    try {
-      const response = await axios.post(
-        "https://trafficllymain.zapto.org/usuarios",
-        {
-          telefono,
-          nombres,
-          apellidos,
-          correo,
-          password,
-          domicilio,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
+    if (
+      !telefono ||
+      !nombres ||
+      !apellidos ||
+      !correo ||
+      !password ||
+      !domicilio
+    ) {
+      toast.warn("Recuerda llenar todos los campos");
+    } else {
+      try {
+        const phone = String(telefono);
+        console.log("phone", typeof phone, "", phone);
+        const response = await axios.post(
+          `${urls.backTrafficlly}/usuarios`,
+          {
+            telefono: phone,
+            nombres,
+            apellidos,
+            correo,
+            password,
+            domicilio,
           },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        toast.success("Registro exitoso");
+        setSelected("login");
+      } catch (error) {
+        if (error.code == "ERR_NETWORK") {
+          toast.error("Error de conexion");
+        } else {
+          toast.error("Error al crear el usuario");
+          console.log("error", error);
         }
-      );
-      alert("todo bien");
-      setSelected("login");
-    } catch (error) {
-      console.log("Error al registrar usuario", error);
-      toast.error("Error al crear el usuario");
+      }
     }
   };
+
+  localStorage.removeItem("correoSystem");
 
   return (
     <>
@@ -133,7 +162,7 @@ function Login() {
         />
 
         <div className="flex flex-col w-full items-center sm: mb-36 md:mt-20">
-          <Card className="max-w-full w-[340px]">
+          <Card className="max-w-full w-[380px]">
             <CardBody className="overflow-hidden">
               <Tabs
                 fullWidth
@@ -182,14 +211,14 @@ function Login() {
                   </form>
                 </Tab>
                 <Tab key="sign-up" title="Registrarse">
-                  <form className="flex flex-col gap-4 ">
+                  <form className="flex flex-col ">
                     <div className="flex justify-center w-full ">
                       <InputComponent
-                        label="Telefono"
+                        label="Teléfono"
                         name="telefono"
                         value={inputRegisterV.telefono}
-                        type="text"
-                        placeholder="Ingresa tu telefono"
+                        type="number"
+                        placeholder="Ingresa tu teléfono"
                         onChange={handleRegister}
                       />
                     </div>
@@ -242,17 +271,18 @@ function Login() {
                         onChange={handleRegister}
                       />
                     </div>
-                    <p className="text-center text-small">
+                    <p className="text-center text-small my-2">
                       Ya tienes una cuenta?{" "}
                       <Link size="sm" onPress={() => setSelected("login")}>
                         Iniciar sesión
                       </Link>
                     </p>
-                    <div className="flex gap-2 justify-end">
+                    <div className="flex gap-2 justify-end ">
                       <Button
                         fullWidth
                         color="primary"
                         onClick={() => saveRegister()}
+                        className="mb-6"
                       >
                         Registrarse
                       </Button>

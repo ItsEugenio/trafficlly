@@ -7,6 +7,8 @@ import ChartHourDaily from "../components/ChartHourDaily";
 
 import CardDateSelect from "../components/CardDateSelect";
 
+import { isTokenExpired } from "../components/utils/jwtUtil";
+
 function Home() {
   localStorage.removeItem("fecha");
 
@@ -23,9 +25,16 @@ function Home() {
     }
   }, [navigate, token]);
 
+  useEffect(() => {
+    if (isTokenExpired(token)) {
+      console.log("Token caducado.");
+      navigate("/");
+    }
+  }, []);
+
   return (
     <>
-      {authenticated && (
+      {/* {authenticated && ( */}
         <>
           <NavT />
           <ButtonSecurityNav />
@@ -46,7 +55,7 @@ function Home() {
           </h2>
           <ChartHourDaily lugar="adentro" />
         </>
-      )}
+      {/* )} */}
     </>
   );
 }

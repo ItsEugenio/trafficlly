@@ -4,7 +4,7 @@ import axios from "axios";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import "chart.js/auto"; // Importa todos los componentes necesarios desde Chart.js
-
+import { urls } from "./utils/urlsLocal";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -26,7 +26,7 @@ function ChartWeek({ lugar }) {
       if (idKitWeek && tokenWeek) {
         try {
           const response = await axios.get(
-            `https://trafficllymain.zapto.org/registro/week?lugar=${lugar}&idKit=12345`,
+            `${urls.backTrafficlly}/registro/week?lugar=${lugar}&idKit=12345`,
             {
               headers: { Authorization: tokenWeek },
             }

@@ -13,6 +13,7 @@ import {
 } from "@nextui-org/react";
 import { IoIosAddCircle } from "react-icons/io";
 import axios from "axios";
+import { urls } from "../utils/urlsLocal";
 
 function ModalAddKitSecurity() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -41,7 +42,7 @@ function ModalAddKitSecurity() {
 
     try {
       const response = await axios.post(
-        `https://securitysystem.zapto.org/kits`,
+        `${urls.backSystem}/kits`,
         {
           id: idkit,
           nombre,

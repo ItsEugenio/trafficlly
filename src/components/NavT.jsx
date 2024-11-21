@@ -12,6 +12,7 @@ import {
 } from "@nextui-org/react";
 import "../App.css";
 import trafficLogo from "../assets/trafficlly.png";
+import ModalUser from "./ModalUser";
 
 function NavT() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -35,10 +36,7 @@ function NavT() {
     { title: "Estadísticas", link: "/Estadisticas" },
   ];
 
-  const cerrarSesion = () => {
-    localStorage.removeItem("token");
-    window.location.assign("/");
-  };
+  
 
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen} className="bg-navbarPrimary">
@@ -78,9 +76,9 @@ function NavT() {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button color="primary" variant="flat" onClick={cerrarSesion}>
-            Cerrar Sesión
-          </Button>
+          
+         <ModalUser /> 
+
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>

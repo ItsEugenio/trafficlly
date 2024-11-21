@@ -3,7 +3,7 @@ import { Card, CardHeader, CardBody, Divider } from "@nextui-org/react";
 import axios from "axios";
 import io from "socket.io-client";
 import { BsFillPeopleFill } from "react-icons/bs";
-
+import { urls } from "./utils/urlsLocal";
 const hours = [
   "00:00",
   "01:00",
@@ -30,7 +30,7 @@ const hours = [
   "22:00",
   "23:00",
 ];
-const socket = io("https://websockettrafficlly.zapto.org");
+const socket = io(urls.webSocketTrafficlly);
 
 const formatDate = (date) => {
   const day = date.getDate().toString().padStart(2, "0");
@@ -64,7 +64,7 @@ function CardPeopleChart({lugar}) {
       if (date && idKit && token) {
         try {
           const response = await axios.get(
-            `https://trafficllymain.zapto.org/registro?fecha=${date}&lugar=${lugar}&idKit=${idKit}`,
+            `${urls.backTrafficlly}/registro?fecha=${date}&lugar=${lugar}&idKit=${idKit}`,
             {
               headers: {
                 Authorization: token,

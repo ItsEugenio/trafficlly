@@ -10,7 +10,7 @@ import {
 } from "@nextui-org/react";
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
-
+import { urls } from "../utils/urlsLocal";
 function ModalDeleteReport({IDReport}) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const token = localStorage.getItem("token");
@@ -18,7 +18,7 @@ function ModalDeleteReport({IDReport}) {
     const deleteReport = async (id) =>{
       try {
         const response = await axios.delete(
-          `https://securitysystem.zapto.org/reportes/${id}`,
+          `${urls.backSystem}/reportes/${id}`,
           {
             headers: {
               Authorization: `${token}`,

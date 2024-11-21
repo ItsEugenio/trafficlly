@@ -14,6 +14,9 @@ import { MdPermIdentity } from "react-icons/md";
 import { AiOutlineFieldNumber } from "react-icons/ai";
 import { MdAddchart } from "react-icons/md";
 
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { urls } from "./utils/urlsLocal";
 function ModalAddKit() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [id, setId] = useState("");
@@ -33,40 +36,51 @@ function ModalAddKit() {
     e.preventDefault();
     const idKit = parseInt(id, 10);
 
-    if (isNaN(idKit)) {
-      console.log("Por favor, ingresa un ID válido.");
-      return;
-    }
-
     try {
-  
-      const response = await axios.post(
-        "https://trafficllymain.zapto.org/kits",
-        {
-          id: idKit,
-          nombre,
-        },
-        {
-          headers: {
-            Authorization: `${token}`,
+      if (!idKit || !nombre) {
+        toast.warn("Recuerda llenar todos los campos");
+      } else {
+        const response = await axios.post(
+          `${urls.backTrafficlly}/kits`,
+          {
+            id: idKit,
+            nombre,
           },
-        }
-      );
-
-      console.log("Datos guardados correctamente.");
-      window.location.assign('/KitsTrafficcly')
-
+          {
+            headers: {
+              Authorization: `${token}`,
+            },
+          }
+        );
+        toast.success("Kit agregado con éxito");
+        window.location.assign('/KitsTrafficcly')
+      }
     } catch (error) {
-      console.log("Error al guardar los datos.");
+      if (error.code == "ERR_NETWORK") {
+        toast.error("Error de conexion");
+      } else {
+        toast.error("Error al agregar el kit");
+      }
     }
   };
 
   return (
     <>
-      <Button onPress={onOpen} isIconOnly color="success" size="lg" variant="ghost">
-      <MdAddchart size={38}/>
+      <Button
+        onPress={onOpen}
+        isIconOnly
+        color="success"
+        size="lg"
+        variant="ghost"
+      >
+        <MdAddchart size={38} />
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center"  backdrop="blur">
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        placement="top-center"
+        backdrop="blur"
+      >
         <ModalContent>
           {(onClose) => (
             <>
@@ -116,6 +130,20 @@ function ModalAddKit() {
           )}
         </ModalContent>
       </Modal>
+     
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition:Bounce
+      />
     </>
   );
 }

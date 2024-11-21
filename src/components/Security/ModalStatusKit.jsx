@@ -11,7 +11,7 @@ import {
 import { IoLockClosed } from "react-icons/io5";
 import { IoLockOpen } from "react-icons/io5";
 import axios from "axios";
-
+import { urls } from "../utils/urlsLocal";
 
 function ModalStatusKit({ status, nombre, id }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -22,7 +22,7 @@ function ModalStatusKit({ status, nombre, id }) {
     console.log(newStatus) 
     try {
       const response = await axios.put(
-        `https://securitysystem.zapto.org/kits/security/${idKit}`, 
+        `${urls.backSystem}/kits/security/${idKit}`, 
         {
             activate: newStatus
         }

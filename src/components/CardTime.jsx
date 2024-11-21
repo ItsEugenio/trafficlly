@@ -21,7 +21,7 @@ function CardTime({diaPro}) {
       <CardHeader className="flex gap-3">
         <div className="w-full">
           <h1 className="text-center font-bold">
-            DIA CON MAYOR PROBABILIDAD DE TRAFICO DE PERSONAS
+          DÍA CON MAYOR PROBABILIDAD DE TRÁFICO DE PERSONAS
           </h1>
         </div>
       </CardHeader>
