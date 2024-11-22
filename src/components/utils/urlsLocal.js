@@ -1,6 +1,6 @@
 export const urls = {
-    backTrafficlly: 'http://localhost:4000',
-    backSystem: 'http://localhost:3000',
+    backTrafficlly: '107.23.14.43',
+    backSystem: '98.85.119.81',
     webSocketSecurity: '3.218.171.184',
     webSocketTrafficlly: '54.198.117.11',
 }
@@ -8,3 +8,4 @@ export const urls = {
 
 
 
+    
