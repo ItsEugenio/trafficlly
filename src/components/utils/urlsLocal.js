@@ -1,8 +1,8 @@
 export const urls = {
-    backTrafficlly: 'http://107.23.14.43',
-    backSystem: 'http://98.85.119.81',
-    webSocketSecurity: '3.218.171.184',
-    webSocketTrafficlly: '54.198.117.11',
+    backTrafficlly: 'https://trafficlly.ddns.net/backtrafficlly/',
+    backSystem: 'https://trafficlly.ddns.net/backsecurity/',
+    webSocketSecurity: 'wss://trafficlly.ddns.net/wstrafficlly/',
+    webSocketTrafficlly: 'wss://trafficlly.ddns.net/wssecurity/',
 }
 
 
