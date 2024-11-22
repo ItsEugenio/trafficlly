@@ -45,7 +45,7 @@ function NavbarSecurity() {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center hidden sm:flex gap-4">
             <ModalAddKitSecurity />
           </div>
         </NavbarItem>
@@ -63,6 +63,9 @@ function NavbarSecurity() {
             </Link>
           </NavbarMenuItem>
         ))}
+        <NavbarItem>
+        <ModalAddKitSecurity />
+        </NavbarItem>
       </NavbarMenu>
     </Navbar>
   );

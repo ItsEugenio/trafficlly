@@ -16,7 +16,7 @@ function BuscarFecha() {
   useEffect(() => {
     const isAuthenticated = token !== null;
     setAuthenticated(isAuthenticated);
-    console.log("tokeeen", token);
+   
 
     if (!isAuthenticated) {
       navigate("/");

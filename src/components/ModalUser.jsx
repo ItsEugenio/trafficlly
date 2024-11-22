@@ -36,18 +36,19 @@ function ModalUser() {
                 Ajuste de Cuenta
               </ModalHeader>
               <ModalBody>
-                <div>
+              <div className="flex flex-col items-center">
+                <h2 className="mb-2 mt-2">Cerrar Cuenta</h2>
                   <Button color="primary" variant="flat" onClick={cerrarSesion}>
                     Cerrar Sesión
                   </Button>
                 </div>
-                <div>
-                    <h2>Editar contraseña</h2>
-                <ModalEditKitT idKit='1' name='N' tipo='user'/>
+                <div className="flex flex-col items-center">
+                  <h2 className="mb-2 mt-2">Editar contraseña</h2>
+                  <ModalEditKitT idKit="1" name="N" tipo="user" />
                 </div>
-                <div>
-                   <h2>Eliminar cuenta</h2>
-                   <ModalDeleteKit idKit='1' name='N' Trafficly='user'/>
+                <div className="flex flex-col items-center">
+                  <h2 className="mb-2 mt-2">Eliminar cuenta</h2>
+                  <ModalDeleteKit idKit="1" name="N" Trafficly="user" />
                 </div>
               </ModalBody>
               <ModalFooter>

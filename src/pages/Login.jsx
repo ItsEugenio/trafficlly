@@ -58,6 +58,7 @@ function Login() {
     try {
       const datosForms = inputValues;
       const { correo, password } = datosForms;
+      console.log(urls.backTrafficlly)
       if (!correo || !password) {
         toast.warn("Recuerda llenar todos los campos");
       } else {

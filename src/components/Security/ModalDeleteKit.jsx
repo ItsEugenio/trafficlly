@@ -12,6 +12,9 @@ import { MdDelete } from "react-icons/md";
 import axios from "axios";
 import { urls } from "../utils/urlsLocal";
 
+import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
+
 function ModalDeleteKit({ idKit, name, Trafficly }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const token = localStorage.getItem("token");
@@ -28,10 +31,16 @@ function ModalDeleteKit({ idKit, name, Trafficly }) {
         }
       );
 
-      console.log("Datos guardados correctamente.");
-      window.location.assign("/KitsTrafficcly");
+      toast.success("Kit eliminado");
+      setTimeout(() => {
+        window.location.assign("/KitsTrafficcly");
+      }, 2000);
     } catch (error) {
-      console.log("Error al guardar los datos.");
+      if (error.code == "ERR_NETWORK") {
+        toast.error("Error de conexion");
+      } else {
+        toast.error("error al eliminar kit");
+      }
     }
   };
 
@@ -43,14 +52,22 @@ function ModalDeleteKit({ idKit, name, Trafficly }) {
         },
       });
 
-      console.log("Datos guardados correctamente.");
-      window.location.assign("/Security");
+      toast.success("Kit eliminado");
+      setTimeout(() => {
+        window.location.assign("/Security");
+      }, 2000);
+    
     } catch (error) {
-      console.log("Error al guardar los datos.");
+      if (error.code == "ERR_NETWORK") {
+        toast.error("Error de conexion");
+      } else {
+        toast.error("error al eliminar kit");
+      }
     }
   };
 
   const deleteUser = async (correo) => {
+    console.log(correo)
     try {
       const response = await axios.delete(
         `${urls.backTrafficlly}/usuarios/${correo}`,
@@ -61,10 +78,17 @@ function ModalDeleteKit({ idKit, name, Trafficly }) {
         }
       );
 
-      console.log("Datos guardados correctamente.");
-      window.location.assign("/");
+      toast.success("Cuenta eliminada");
+      setTimeout(() => {
+        window.location.assign("/");
+      }, 2000);
     } catch (error) {
-      console.log("Error al guardar los datos.");
+      if (error.code == "ERR_NETWORK") {
+        toast.error("Error de conexion");
+      } else {
+        console.log(error)
+        toast.error("error al eliminar usuario");
+      }
     }
   };
 
@@ -144,6 +168,19 @@ function ModalDeleteKit({ idKit, name, Trafficly }) {
             </>
           )}
         </ModalContent>
+        <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition:Bounce
+      />
       </Modal>
     </>
   );

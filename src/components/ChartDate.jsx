@@ -26,7 +26,9 @@ const ChartDate = ({ lugar }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log(idKit)
       if (date && idKit && token) {
+        
         try {
           const response = await axios.get(
             `${urls.backTrafficlly}/registro?fecha=${date}&lugar=${lugar}&idKit=${idKit}`,
@@ -36,7 +38,6 @@ const ChartDate = ({ lugar }) => {
               }
             }
           );
-
           const filteredData = processResponseData(response.data);
           setData(filteredData);
         } catch (error) {
