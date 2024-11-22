@@ -76,34 +76,49 @@ export default function ChartHourDaily({ lugar }) {
   const storedPeopleCountsOut = JSON.parse(localStorage.getItem(`peopleCountsOut_${lugar}`)) || Array(24).fill(0);
 
   useEffect(() => {
-    const fetchData = async (lugar) => {
-      if (date && idKit && token) {
-        try {
-          const response = await axios.get(
-            `${urls.backTrafficlly}/registro?fecha=${date}&lugar=${lugar}&idKit=${idKit}`,
-            {
-              headers: {
-                Authorization: token,
-              },
-            }
-          );
+    if(peopleCountsOut.every(valor => valor === 0)){
+      setPeopleCountsOut(storedPeopleCountsOut)
+    }
+  }, [])
 
-          const filteredData = processResponseData(response.data, lugar);
+  useEffect(() => {
+    if(peopleCounts.every(valor => valor ===0)){
+      setPeopleCounts(storedPeopleCounts)
+    }
+  }, [])
 
-          // Actualizar los estados con los datos obtenidos
-          if (lugar === "adentro") {
-            setPeopleCounts(filteredData);
-          } else {
-            setPeopleCountsOut(filteredData);
-          }
-        } catch (error) {
-          console.error("Error al obtener datos:", error);
-        }
-      }
-    };
+  useEffect(() => {
+    // const fetchData = async (lugar) => {
+    //   if (date && idKit && token) {
+    //     try {
+    //       const response = await axios.get(
+    //         `${urls.backTrafficlly}/registro?fecha=${date}&lugar=${lugar}&idKit=${idKit}`,
+    //         {
+    //           headers: {
+    //             Authorization: token,
+    //           },
+    //         }
+    //       );
 
-    fetchData("adentro");
-    fetchData("afuera");
+    //       const filteredData = processResponseData(response.data, lugar);
+
+    //       // Actualizar los estados con los datos obtenidos
+    //       if (lugar === "adentro") {
+    //         setPeopleCounts(filteredData);
+    //         console.log(filteredData)
+    //       } else {
+    //         setPeopleCountsOut(filteredData);
+    //         console.log(filteredData)
+
+    //       }
+    //     } catch (error) {
+    //       console.error("Error al obtener datos:", error);
+    //     }
+    //   }
+    // };
+
+    // fetchData("adentro");
+    // fetchData("afuera");
 
     socket.on("connect", () => {
       console.log("Conectado al servidor WebSocket");
@@ -123,6 +138,7 @@ export default function ChartHourDaily({ lugar }) {
               updatedCounts[index] = count;
             }
           });
+          console.log('act actua',JSON.stringify(updatedCounts))
           localStorage.setItem(`peopleCounts_adentro`, JSON.stringify(updatedCounts));
           return updatedCounts;
         });
@@ -145,6 +161,7 @@ export default function ChartHourDaily({ lugar }) {
               updatedCounts[index] = count;
             }
           });
+          console.log('act',JSON.stringify(updatedCounts))
           localStorage.setItem(`peopleCounts_adentro`, JSON.stringify(updatedCounts));
           return updatedCounts;
         });

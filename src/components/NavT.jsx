@@ -13,6 +13,8 @@ import {
 import "../App.css";
 import trafficLogo from "../assets/trafficlly.png";
 import ModalUser from "./ModalUser";
+import ModalEditKitT from "./ModalEditKitT";
+import ModalDeleteKit from "./Security/ModalDeleteKit";
 
 function NavT() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -76,7 +78,7 @@ function NavT() {
           </Link>
         </NavbarItem>
       </NavbarContent>
-      <NavbarContent justify="end">
+      <NavbarContent className="hidden sm:flex gap-4" justify="end">
         {!correo ? (
           <></>
         ) : (
@@ -98,6 +100,9 @@ function NavT() {
             </Link>
           </NavbarMenuItem>
         ))}
+        <NavbarMenuItem>
+        <ModalUser />
+        </NavbarMenuItem>
       </NavbarMenu>
     </Navbar>
   );

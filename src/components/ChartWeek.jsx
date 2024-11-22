@@ -23,6 +23,7 @@ function ChartWeek({ lugar }) {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log('id',idKitWeek,'to',tokenWeek)
       if (idKitWeek && tokenWeek) {
         try {
           const response = await axios.get(
@@ -32,6 +33,7 @@ function ChartWeek({ lugar }) {
             }
           );
           setData(response.data);
+          console.log('res',response.data)
         } catch (error) {
           console.error("Error al obtener datos:", error);
         }

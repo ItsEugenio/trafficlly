@@ -53,7 +53,9 @@ function ModalAddKit() {
           }
         );
         toast.success("Kit agregado con éxito");
-        window.location.assign('/KitsTrafficcly')
+        setTimeout(() => {
+          window.location.assign("/KitsTrafficcly");
+        }, 2000);
       }
     } catch (error) {
       if (error.code == "ERR_NETWORK") {
