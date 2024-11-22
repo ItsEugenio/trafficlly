@@ -4,7 +4,7 @@ import { Line } from "react-chartjs-2";
 import axios from "axios";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import 'chart.js/auto'; // Importar todos los componentes de Chart.js
+import "chart.js/auto"; // Importar todos los componentes de Chart.js
 import { urls } from "./utils/urlsLocal";
 const darkTheme = createTheme({
   palette: {
@@ -13,33 +13,56 @@ const darkTheme = createTheme({
 });
 
 const hours = [
-  "00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00",
-  "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00",
-  "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"
+  "00:00",
+  "01:00",
+  "02:00",
+  "03:00",
+  "04:00",
+  "05:00",
+  "06:00",
+  "07:00",
+  "08:00",
+  "09:00",
+  "10:00",
+  "11:00",
+  "12:00",
+  "13:00",
+  "14:00",
+  "15:00",
+  "16:00",
+  "17:00",
+  "18:00",
+  "19:00",
+  "20:00",
+  "21:00",
+  "22:00",
+  "23:00",
 ];
 
 const ChartDate = ({ lugar }) => {
   const [data, setData] = useState([]);
+  const [isData, setIsData] = useState(false);
   const date = localStorage.getItem("fecha");
   const idKit = localStorage.getItem("kitTra");
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log(idKit)
       if (date && idKit && token) {
-        
         try {
           const response = await axios.get(
             `${urls.backTrafficlly}/registro?fecha=${date}&lugar=${lugar}&idKit=${idKit}`,
             {
               headers: {
                 Authorization: token,
-              }
+              },
             }
           );
           const filteredData = processResponseData(response.data);
           setData(filteredData);
+          if (filteredData.length >= 1) {
+            setIsData(true);
+          }
         } catch (error) {
           console.error("Error al obtener datos:", error);
         }
@@ -52,8 +75,11 @@ const ChartDate = ({ lugar }) => {
   const processResponseData = (data) => {
     const filteredData = {};
 
-    data.forEach(item => {
-      if (!filteredData[item.hora] || filteredData[item.hora].numero_personas < item.numero_personas) {
+    data.forEach((item) => {
+      if (
+        !filteredData[item.hora] ||
+        filteredData[item.hora].numero_personas < item.numero_personas
+      ) {
         filteredData[item.hora] = item;
       }
     });
@@ -63,8 +89,8 @@ const ChartDate = ({ lugar }) => {
     });
   };
 
-  const personas = data.map(item => item.numero_personas);
-  const horas = data.map(item => item.hora);
+  const personas = data.map((item) => item.numero_personas);
+  const horas = data.map((item) => item.hora);
 
   const chartData = {
     labels: horas,
@@ -73,8 +99,8 @@ const ChartDate = ({ lugar }) => {
         label: `Personas que pasan ${lugar} del negocio`,
         data: personas,
         fill: false,
-        backgroundColor: 'rgba(253, 72, 0, 0.2)',
-        borderColor: '#fd4800',
+        backgroundColor: "rgba(253, 72, 0, 0.2)",
+        borderColor: "#fd4800",
       },
     ],
   };
@@ -86,10 +112,10 @@ const ChartDate = ({ lugar }) => {
       tooltip: {
         callbacks: {
           label: function (context) {
-            let label = context.dataset.label || '';
+            let label = context.dataset.label || "";
 
             if (label) {
-              label += ': ';
+              label += ": ";
             }
             if (context.parsed.y !== null) {
               label += `${context.parsed.y} personas a las ${context.label}`;
@@ -103,33 +129,41 @@ const ChartDate = ({ lugar }) => {
       x: {
         title: {
           display: true,
-          text: 'Hora',
+          text: "Hora",
         },
       },
       y: {
         title: {
           display: true,
-          text: 'Número de personas',
+          text: "Número de personas",
         },
         beginAtZero: true,
       },
-      
     },
     elements: {
       point: {
         hitRadius: 20, // Aumenta el área de interacción del punto
-      }
-    }
+      },
+    },
   };
 
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      
-      <div style={{ height: "400px", width: "100%" }}
-        className="flex justify-center sm:p-4 sm:min-h-[400px] md:p-16 md:min-h-[700px]">
-        <Line data={chartData} options={options} />
-      </div>
+      {isData ? (
+        <div
+          style={{ height: "400px", width: "100%" }}
+          className="flex justify-center sm:p-4 sm:min-h-[400px] md:p-16 md:min-h-[700px]"
+        >
+          <Line data={chartData} options={options} />
+        </div>
+      ) : (
+        <>
+        <div className={lugar === 'afuera' ? "h-[5rem]" : "h-[38rem]"}>
+          <h1 className="text-center mt-8 text-2xl text-red-600">No hay datos sobre personas que pasaron {lugar}</h1>
+        </div>
+        </>
+      )}
     </ThemeProvider>
   );
 };
